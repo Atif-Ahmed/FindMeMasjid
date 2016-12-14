@@ -1,4 +1,4 @@
-package com.apps.genutek.fineme_masjid;
+package com.apps.genutek.find_me_masjid;
 
 import org.junit.Test;
 
