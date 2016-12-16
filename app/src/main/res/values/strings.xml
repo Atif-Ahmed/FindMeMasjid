@@ -4,4 +4,5 @@
     <string name="email">email</string>
     <string name="password">password</string>
     <string name="contentDescription_logo">App Logo Designed by Freepik</string>
+    <string name="signup_text">Don\'t have an account yet? Signup</string>
 </resources>
