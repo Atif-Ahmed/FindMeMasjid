@@ -1,0 +1,25 @@
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_map"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="com.apps.genutek.find_me_masjid.MapsActivity"
+    android:background="@drawable/background_repeat">
+
+    <fragment
+        android:layout_width="match_parent"
+        android:id = "@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp" />
+
+
+</RelativeLayout>
