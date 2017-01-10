@@ -16,8 +16,14 @@ public class LoginActivity extends AppCompatActivity {
 
     // verification of the login system from the user database online.
     public void onClick_Login(View view){
+        //TODO : Implement the login checking process
         Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void onClick_Signup(View view){
+        Intent intent = new Intent(this,SignupActivity.class);
+        startActivity(intent);
     }
 }
