@@ -21,6 +21,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -117,12 +118,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             case R.id.item_remove_ads:
                                 return true;
                             case R.id.item_feedback:
+                                feedBackPage();
                                 return true;
                             case R.id.item_share:
+                                sharePage();
                                 return true;
                             case R.id.item_support_me:
                                 return true;
                             case R.id.item_about:
+                                showAboutDialog();
                                 return true;
                         }
                         return false;
@@ -134,7 +138,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         // init advert
-        MobileAds.initialize(getApplicationContext(),"ca-app-pub-4952820368276019~2433897285");
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-4952820368276019~2433897285");
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -254,8 +258,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         protected void onPreExecute() {
             mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            mLocationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            progress_dialog = new ProgressDialog(MapsActivity.this,R.style.CustomLoadTheme);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            progress_dialog = new ProgressDialog(MapsActivity.this, R.style.CustomLoadTheme);
 
             progress_dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
@@ -271,7 +275,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         @Override
-        protected void onCancelled(){
+        protected void onCancelled() {
             System.out.println("Cancelled by user!");
             progress_dialog.dismiss();
             mLocationManager.removeUpdates(locationListener);
@@ -309,12 +313,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 FetchCoordinates f = new FetchCoordinates();
                 f.execute();
-            }
-            else{
+            } else {
                 int isPermissionGranted = 0;
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         isPermissionGranted);
-                
+
 
             }
         }
@@ -606,6 +609,73 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
 
     }
+
+    //Drop Down Popup page
+    public AlertDialog showAboutDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+        builder.setMessage("About: \n" +
+                "\n" +
+                "I am a Student of Masters in Computer Science (Artificial Intelligence & Computer Vision) in University of Malaya.\n" +
+                "\n" +
+                "My passion for programming started since I was kid, I create my first game application when I 16 years old.\n" +
+                "\n" +
+                "I have done project in multiple programming language including python, C/C++, Java, PHP, HTML, CSS, JavaScript.\n" +
+                "\n" +
+                "My Area of expertise includes  Full-Stack Web Development, Artificial Intelligence & Deep Learning, Computer Vision, Mobile Application , " +
+                "Game Development, Graphic & Animations.\n" +
+                "\n" +
+                "I am open to any suggestion, comments, and help requests. If you like to contact me, please drop me an email at \n" +
+                "\n" +
+                "atifahmed0276@gmail.com \n" +
+                "\n" +
+                "P.S. Please remember me and my parents in your prayers. JazakAllah Khair." );
+
+        builder.setCancelable(true);
+
+        AlertDialog about = builder.create();
+        about.show();
+        TextView messageView = (TextView) about.findViewById(android.R.id.message);
+        messageView.setLinkTextColor(Color.YELLOW);
+        messageView.setGravity(Gravity.CENTER);
+        return about;
+    }
+
+    //Drop Down Share page
+
+    public void sharePage() {
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("text/plain");
+            i.putExtra(Intent.EXTRA_SUBJECT, "TESSTING>>>");
+            String sAux = "\n Try out this application for finding Masjid around you. \n\n";
+            sAux = sAux + "ja ja  ja ma ma ja ja ja\n\n";
+            i.putExtra(Intent.EXTRA_TEXT, sAux);
+            startActivity(Intent.createChooser(i, "choose one"));
+        } catch(Exception e) {
+
+        }
+    }
+
+
+    public AlertDialog feedBackPage(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+        builder.setMessage("Dear Valued Users \n" +
+                "\n" +
+                "Your input is very important and hold a  very high value in developing better and improved applications which suites your requirements." +
+                " Please feel free to provide comments, suggestions and feedback and send it to my email.\n" +
+                "\n" +
+                "atifahmed0276@gmail.com" );
+
+        builder.setCancelable(true);
+
+        AlertDialog about = builder.create();
+        about.show();
+        TextView messageView = (TextView) about.findViewById(android.R.id.message);
+        messageView.setLinkTextColor(Color.YELLOW);
+        messageView.setGravity(Gravity.CENTER);
+        return about;
+    }
+
 }
 
 

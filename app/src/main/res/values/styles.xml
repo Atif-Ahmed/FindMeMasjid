@@ -18,6 +18,7 @@
 
     <style name="MyDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:background">@drawable/background_repeat</item>
+        <item name="android:autoLink">email</item>
     </style>
 
     <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
