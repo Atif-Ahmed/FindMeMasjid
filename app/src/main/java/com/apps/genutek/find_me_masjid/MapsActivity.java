@@ -310,6 +310,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 FetchCoordinates f = new FetchCoordinates();
                 f.execute();
             }
+            else{
+                int isPermissionGranted = 0;
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        isPermissionGranted);
+                
+
+            }
         }
 
 
