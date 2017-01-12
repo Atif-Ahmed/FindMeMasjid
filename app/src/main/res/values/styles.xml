@@ -25,5 +25,25 @@
     </style>
 
 
+    <style name="CustomLoadTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
+        <item name="android:textColorPrimary">#000000</item>
+    </style>
+
+    <style name="CustomAlertDialogStyle">
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:bottomBright">@color/DarkerGreen</item>
+        <item name="android:bottomDark">@color/DarkerGreen</item>
+        <item name="android:bottomMedium">@color/DarkerGreen</item>
+        <item name="android:centerBright">@color/DarkerGreen</item>
+        <item name="android:centerDark">@color/DarkerGreen</item>
+        <item name="android:centerMedium">@color/DarkerGreen</item>
+        <item name="android:fullBright">@color/DarkerGreen</item>
+        <item name="android:fullDark">@color/DarkerGreen</item>
+        <item name="android:topBright">@color/DarkerGreen</item>
+        <item name="android:topDark">@color/DarkerGreen</item>
+    </style>
+
+
 
 </resources>

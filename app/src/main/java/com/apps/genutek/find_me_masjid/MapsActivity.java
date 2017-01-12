@@ -1,6 +1,7 @@
 package com.apps.genutek.find_me_masjid;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +32,9 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -129,14 +133,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        // init advert
+        MobileAds.initialize(getApplicationContext(),"ca-app-pub-4952820368276019~2433897285");
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
 
     }
 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mMap.getUiSettings().setMapToolbarEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
         getCountryLongLat();
@@ -205,59 +212,106 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         placesTask.execute(sbMethod());
     }
 
+    @SuppressWarnings("MissingPermission")
+    public class FetchCoordinates extends AsyncTask<String, Integer, String> {
+        ProgressDialog progress_dialog = null;
+        double lati = 0;
+        double longi = 0;
+
+        LocationManager mLocationManager;
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                try {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    longi = longitude;
+                    lati = latitude;
+
+
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+        @Override
+        protected void onPreExecute() {
+            mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            mLocationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            progress_dialog = new ProgressDialog(MapsActivity.this,R.style.CustomLoadTheme);
+
+            progress_dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    FetchCoordinates.this.cancel(true);
+                }
+            });
+            progress_dialog.setMessage("Fetching Co-ordinates..");
+            progress_dialog.setIndeterminate(true);
+            progress_dialog.setCancelable(true);
+            progress_dialog.show();
+
+        }
+
+        @Override
+        protected void onCancelled(){
+            System.out.println("Cancelled by user!");
+            progress_dialog.dismiss();
+            mLocationManager.removeUpdates(locationListener);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            progress_dialog.dismiss();
+            updateMap();
+            PlacesTask placesTask = new PlacesTask();
+            placesTask.execute(sbMethod());
+            mLocationManager.removeUpdates(locationListener);
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            while (this.lati == 0.0) {
+
+            }
+            return null;
+        }
+
+
+    }
+
     public void onClick_GPSSearch(View view) {
+
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
         } else {
-            try {
-                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                LocationListener locationListener = new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-
-                    }
-
-                    @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String provider) {
-
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String provider) {
-
-                    }
-                };
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0, locationListener);
-                    if (locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER) != null) {
-                        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        latitude = location.getLatitude();
-                        longitude = location.getLongitude();
-                        updateMap();
-                        PlacesTask placesTask = new PlacesTask();
-                        placesTask.execute(sbMethod());
-                        locationManager.removeUpdates(locationListener);
-
-                    } else {
-                        showDialog(" Unable to get GPS co-ordinates. \n" +
-                                " Please try again after few seconds. \n" +
-                                " Note: GPS does not work in indoor places. \n" +
-                                "Try changing you location to a more open area.");
-                    }
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                FetchCoordinates f = new FetchCoordinates();
+                f.execute();
             }
-
-
         }
+
 
     }
 
@@ -290,7 +344,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14));
     }
 
-    private void showDialog(String s) {
+    private AlertDialog showDialog(String s) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setMessage(s);
         builder.setCancelable(true);
@@ -307,6 +361,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         alert.show();
         Button button = alert.getButton(DialogInterface.BUTTON_POSITIVE);
         button.setTextColor(Color.WHITE);
+        return alert;
     }
 
 

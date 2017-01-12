@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="wrap_content">
+    android:layout_width="30dp">
 
     <item
         android:id="@+id/item_remove_ads"
-        android:title="Remove Ads"
+        android:title="@string/remove_ads"
         android:visible="true"/>
 
     <item
         android:id="@+id/item_feedback"
-        android:title="Feedback"
+        android:title="@string/feedback"
         android:visible="true"/>
 
     <item
         android:id="@+id/item_share"
-        android:title="Share"
+        android:title="@string/share"
         android:visible="true"/>
 
     <item
         android:id="@+id/item_support_me"
-        android:title="Support Me"
+        android:title="@string/support_me"
         android:visible="true"/>
 
     <item
         android:id="@+id/item_about"
-        android:title="About"
+        android:title="@string/about"
         android:visible="true"/>
 
 </menu>
