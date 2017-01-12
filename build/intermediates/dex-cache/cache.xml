@@ -133,7 +133,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="129e557b6dce8ba652379bdf9cddeb5a02c92765">
+        sha1="44ed1b5cbff9c2e23a7b290c7bf4a07673bc17f9">
         <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_35dcb76254a9c5b4f99ac9385127133ae8a7debf\classes.dex" />
     </item>
     <item
@@ -232,7 +232,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="9174b17b93c1bc082e929989ffed78aa9ee1b739">
+        sha1="67f691a61c468c1953ee6f865a62d0d43e9639ff">
         <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_bb665188165966b2f311ce00c449ce427f120e03\classes.dex" />
     </item>
     <item

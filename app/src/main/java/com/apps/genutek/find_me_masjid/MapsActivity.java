@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -15,6 +16,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -147,10 +149,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void onMapReady(GoogleMap googleMap) {
+        AppExecutionCounter();
         mMap = googleMap;
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
         getCountryLongLat();
+
         // Add a marker in KL and move the camera
         LatLng country = new LatLng(latitude, longitude);
         //mMap.addMarker(new MarkerOptions().position(country).title("Marker"));
@@ -174,6 +178,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 onClick_routeButton();
             }
         });
+
+
     }
 
     private void getCountryLongLat() {
@@ -182,10 +188,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Locale locale = new Locale("", iso);
         String country = locale.getDisplayCountry();
         // Get Current Location
-        getLongLat(country);
+        getLongLat(country,false);
     }
 
-    private void getLongLat(String location) {
+    private void getLongLat(String location, Boolean isLocation) {
         Geocoder coder = new Geocoder(this);
         List<Address> address;
         try {
@@ -196,11 +202,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 longitude = longLat.getLongitude();
             }
         } catch (Exception e) {
-            showDialog("Problem occurred while finding location. \n" +
-                    "Make sure location is correct.\n" +
-                    "Provide more details of your location. \n" +
-                    "e.g. Aal Al Bait, Damascus, Syria");
-            e.printStackTrace();
+            if(isLocation) {
+                showDialog("Problem occurred while finding location. \n" +
+                        "Make sure location is correct.\n" +
+                        "Provide more details of your location. \n" +
+                        "e.g. Aal Al Bait, Damascus, Syria");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -210,7 +218,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         in.hideSoftInputFromWindow(mEdit.getWindowToken(), 0);
         String cityText = mEdit.getText().toString();
-        getLongLat(cityText);
+        getLongLat(cityText,true);
         updateMap();
         PlacesTask placesTask = new PlacesTask();
         placesTask.execute(sbMethod());
@@ -674,6 +682,64 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         messageView.setLinkTextColor(Color.YELLOW);
         messageView.setGravity(Gravity.CENTER);
         return about;
+    }
+
+
+    public AlertDialog AppExecutionCounter(){
+        // create or load shared preferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        int count = preferences.getInt("run_count",-100);
+        //application is running for first time....
+        if(count == -100){
+            count = 1;
+            editor.putInt("run_count",count);
+            editor.apply();
+        }
+        else{
+            count = count +1;
+            editor.putInt("run_count",count);
+            editor.apply();
+        }
+        Log.d("app_run_counter", "App Run: " + count);
+
+
+        if(count == 1){
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
+            builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+            builder.setMessage("Thanks you for trying out Find Me Masjid.\n" +
+                    " \n" +
+                    "... How to Find Masjid ...." +
+                    "\n" +
+                    "\n1. You can search for masjid at any location around the world, using search box." +
+                    " For better result provide precise location." +
+                    "\n for example " +
+                    "\n Umayyain Square, Damascus  " +
+                    "\n White Chapel, London" +
+                    "\n" +
+                    "\n 2. You can find masjid near your location,  by tapping GPS icon beside search box." +
+                    "\n" +
+                    "\n 3. More information can be found by tapping icon on upper right corner." +
+                    "\n");
+
+            builder.setCancelable(true);
+
+
+            AlertDialog about = builder.create();
+            about.show();
+            Button button = about.getButton(DialogInterface.BUTTON_POSITIVE);
+            button.setTextColor(Color.WHITE);
+            button.setGravity(Gravity.CENTER);
+            button.setTextSize(20);
+            TextView messageView = (TextView) about.findViewById(android.R.id.message);
+            messageView.setGravity(Gravity.CENTER);
+            return about;
+        }
+        return null;
     }
 
 }
