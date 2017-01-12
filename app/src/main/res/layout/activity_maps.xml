@@ -1,6 +1,7 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -16,24 +17,65 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_below="@+id/City" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="50dp" />
 
-    <EditText
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_marginTop="30dp"
-        android:id="@+id/City"
-        android:background="@color/White"
-        android:hint="City Name"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <EditText
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/EditText_Search"
+            android:background="@color/White"
+            android:hint="@string/map_search_hint"
+            android:textColor="@color/DarkerGreen"
+            android:textSize="14sp"
+            android:paddingLeft="5dp"
+            android:imeOptions="actionSearch"
+            android:drawableRight="@drawable/places_ic_search"
+            android:drawableEnd="@drawable/places_ic_search"
+            android:layout_height="30dp"
+            android:layout_width="300dp"
+            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" />
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/button_drop_down"
+            android:background="@drawable/option_icon"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginRight="20dp" />
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="45dp"
+        android:id="@+id/Button_MapSearch"
+        android:background="@android:drawable/ic_menu_mylocation"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_height="45dp"
+        android:onClick="onClick_GPSSearch"
         android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/map"
-        android:layout_alignStart="@+id/map" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="60dp" />
 
 
 </RelativeLayout>

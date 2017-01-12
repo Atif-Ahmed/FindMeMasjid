@@ -3,11 +3,15 @@
     <string name="Login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="contentDescription_logo">App Logo Designed by Freepik</string>
+    <string name="contentDescription_logo">App Logo inspired by Freepik</string>
     <string name="signup_text">Don\'t have an account yet? Signup</string>
     <string name="title_activity_maps">Map</string>
     <string name="forgot_your_password">Forgot your password</string>
     <string name="name">Name</string>
     <string name="signup">SignUp</string>
     <string name="country">Country</string>
+    <string name="map_search_hint">Location, City</string>
+    <string name="search">Search</string>
+    <string name="marker_icon_desc">Icon for maker info</string>
+    <string name="infoWindow_navigate">Click here to navigate to this masjid</string>
 </resources>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "119694515781",
+    "firebase_url": "https://adroit-flare-152811.firebaseio.com",
+    "project_id": "adroit-flare-152811",
+    "storage_bucket": "adroit-flare-152811.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119694515781:android:4d377651095290c3",
+        "android_client_info": {
+          "package_name": "com.apps.genutek.find_me_masjid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "119694515781-eg1211fks5bl355j38gldr9v3npblm5h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apps.genutek.find_me_masjid",
+            "certificate_hash": "48022C8F2E489EAB265DAD74DB37AD9FE9649897"
+          }
+        },
+        {
+          "client_id": "119694515781-b5lvb1j8v122v7of48s0o9q480qs0rsl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYZzB8mjLbrkfk00wiaCXwrMR4ZdU8UPc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "119694515781-b5lvb1j8v122v7of48s0o9q480qs0rsl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
