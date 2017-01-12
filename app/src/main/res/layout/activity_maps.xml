@@ -40,7 +40,7 @@
             android:drawableRight="@drawable/places_ic_search"
             android:drawableEnd="@drawable/places_ic_search"
             android:layout_height="30dp"
-            android:layout_width="300dp"
+            android:layout_width="275dp"
             android:paddingRight="5dp"
             android:paddingEnd="5dp"
             android:layout_centerVertical="true"
@@ -50,32 +50,31 @@
             android:layout_marginStart="10dp" />
 
         <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/button_drop_down"
             android:background="@drawable/option_icon"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginRight="20dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginRight="5dp" />
+
+        <Button
+            android:layout_width="35dp"
+            android:id="@+id/Button_MapSearch"
+            android:background="@android:drawable/ic_menu_mylocation"
+            android:onClick="onClick_GPSSearch"
+            android:layout_height="35dp"
+            android:layout_alignBottom="@+id/EditText_Search"
+            android:layout_toRightOf="@+id/EditText_Search"
+            android:layout_toEndOf="@+id/EditText_Search"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" />
 
     </RelativeLayout>
-
-    <Button
-        android:layout_width="45dp"
-        android:id="@+id/Button_MapSearch"
-        android:background="@android:drawable/ic_menu_mylocation"
-        android:layout_marginEnd="12dp"
-        android:layout_marginRight="12dp"
-        android:layout_height="45dp"
-        android:onClick="onClick_GPSSearch"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="60dp" />
 
 
 </RelativeLayout>

@@ -5,31 +5,26 @@
 
     <item
         android:id="@+id/item_remove_ads"
-        android:showAsAction="ifRoom|withText"
         android:title="Remove Ads"
         android:visible="true"/>
 
     <item
         android:id="@+id/item_feedback"
-        android:showAsAction="ifRoom|withText"
         android:title="Feedback"
         android:visible="true"/>
 
     <item
         android:id="@+id/item_share"
-        android:showAsAction="ifRoom|withText"
         android:title="Share"
         android:visible="true"/>
 
     <item
         android:id="@+id/item_support_me"
-        android:showAsAction="ifRoom|withText"
         android:title="Support Me"
         android:visible="true"/>
 
     <item
         android:id="@+id/item_about"
-        android:showAsAction="ifRoom|withText"
         android:title="About"
         android:visible="true"/>
 

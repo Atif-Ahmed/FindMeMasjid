@@ -21,18 +21,16 @@ import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -61,8 +59,6 @@ import java.util.Locale;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private TelephonyManager tm;
-    private LocationManager locationManager;
 
 
     private double latitude = 33.6;
@@ -70,9 +66,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private double marker_Latitude;
     private double marker_Longitude;
-    private String country;
-
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +74,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
 
         // create action listener for text
         final EditText editText = (EditText) findViewById(R.id.EditText_Search);
@@ -96,21 +87,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return false;
             }
         });
-        // create listener for edit text icon
-        final EditText mEdit = (EditText) findViewById(R.id.EditText_Search);
-        mEdit.setOnTouchListener(new View.OnTouchListener() {
+        // create listener for edit text icon (search icon of the right side)
+        editText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 final int DRAWABLE_RIGHT = 2;
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getRawX() >= (mEdit.getRight() - mEdit.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                    if (event.getRawX() >= (editText.getRight() - editText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
                         searchArea();
                         return true;
                     }
                 }
                 return false;
             }
-        });        //Add listener to drop down button
+        });
+        //Add listener to drop down button
+        findViewById(R.id.button_drop_down).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(MapsActivity.this, view);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.item_remove_ads:
+                                return true;
+                            case R.id.item_feedback:
+                                return true;
+                            case R.id.item_share:
+                                return true;
+                            case R.id.item_support_me:
+                                return true;
+                            case R.id.item_about:
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.inflate(R.menu.popup_menu);
+                popupMenu.show();
+            }
+        });
 
 
     }
@@ -149,11 +166,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void getCountryLongLat() {
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         String iso = tm.getNetworkCountryIso();
         Locale locale = new Locale("", iso);
-        country = locale.getDisplayCountry();
+        String country = locale.getDisplayCountry();
         // Get Current Location
         getLongLat(country);
     }
@@ -185,9 +201,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String cityText = mEdit.getText().toString();
         getLongLat(cityText);
         updateMap();
-        StringBuilder sbValue = new StringBuilder(sbMethod());
         PlacesTask placesTask = new PlacesTask();
-        placesTask.execute(sbValue.toString());
+        placesTask.execute(sbMethod());
     }
 
     public void onClick_GPSSearch(View view) {
@@ -225,9 +240,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                         updateMap();
-                        StringBuilder sbValue = new StringBuilder(sbMethod());
                         PlacesTask placesTask = new PlacesTask();
-                        placesTask.execute(sbValue.toString());
+                        placesTask.execute(sbMethod());
                         locationManager.removeUpdates(locationListener);
 
                     } else {
@@ -295,17 +309,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         button.setTextColor(Color.WHITE);
     }
 
+
     //***************************************************************************
     // CODE  FOR FINDING MASJID USING GOOGLE
     //***************************************************************************
-    public StringBuilder sbMethod() {
+    public String sbMethod() {
 
-        StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        sb.append("location=" + latitude + "," + longitude);
-        sb.append("&radius=3000");
-        sb.append("&types=" + "mosque");
-        sb.append("&sensor=true");
-        sb.append("&key=AIzaSyAxvTaGa2xOp3x4pX3xHOb0VFA-iiTwbEg");
+        String sb = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
+                "location=" + latitude + "," + longitude +
+                "&radius=3000" +
+                "&types=" + "mosque" +
+                "&sensor=true" +
+                "&key=AIzaSyAxvTaGa2xOp3x4pX3xHOb0VFA-iiTwbEg";
         return sb;
     }
 
@@ -520,15 +535,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    // redirect to google web for route finding...
     public void onClick_routeButton() {
 
-        StringBuilder sb = new StringBuilder("https://www.google.com/maps/dir/");
-        sb.append(latitude + "," + longitude + "/");
-        sb.append(marker_Latitude + "," + marker_Longitude + "/");
-
-
+        String sb = "https://www.google.com/maps/dir/" + latitude + "," + longitude + "/" + marker_Latitude + "," + marker_Longitude + "/";
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                Uri.parse(sb.toString()));
+                Uri.parse(sb));
         startActivity(intent);
 
     }
