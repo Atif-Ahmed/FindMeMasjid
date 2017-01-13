@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -44,6 +45,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -150,7 +152,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void onMapReady(GoogleMap googleMap) {
         AppExecutionCounter();
+
         mMap = googleMap;
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle( this, R.raw.map_style));
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
         getCountryLongLat();
@@ -498,7 +502,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 markerOptions.snippet(vicinity);
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
                 mMap.addMarker(markerOptions);
-
             }
         }
     }

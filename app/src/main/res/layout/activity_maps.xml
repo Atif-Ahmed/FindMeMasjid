@@ -40,19 +40,23 @@
             android:hint="@string/map_search_hint"
             android:textColor="@color/DarkerGreen"
             android:textSize="14sp"
-            android:paddingLeft="5dp"
+            android:paddingLeft="10dp"
             android:imeOptions="actionSearch"
             android:drawableRight="@drawable/places_ic_search"
             android:drawableEnd="@drawable/places_ic_search"
             android:layout_height="30dp"
-            android:layout_width="250dp"
-            android:paddingRight="5dp"
-            android:paddingEnd="5dp"
+            android:layout_width="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp" />
+            android:layout_marginStart="10dp"
+            android:layout_toLeftOf="@+id/Button_MapSearch"
+            android:layout_toStartOf="@+id/Button_MapSearch"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"/>
 
         <Button
             android:layout_width="25dp"
@@ -64,17 +68,26 @@
             android:layout_alignParentEnd="true"
             android:layout_margin = "10dp"/>
 
+        <View android:id="@+id/strut"
+              android:layout_width="1dp"
+              android:layout_height="40dp"
+              android:layout_centerVertical="true"
+              android:layout_toLeftOf="@+id/button_drop_down"
+              android:layout_toStartOf="@+id/button_drop_down"
+              android:background="@color/White"
+              android:alpha=".5"/>
+
         <Button
             android:layout_width="30dp"
             android:id="@+id/Button_MapSearch"
             android:background="@android:drawable/ic_menu_mylocation"
             android:onClick="onClick_GPSSearch"
             android:layout_height="30dp"
-            android:layout_alignBottom="@+id/EditText_Search"
-            android:layout_toRightOf="@+id/EditText_Search"
-            android:layout_toEndOf="@+id/EditText_Search"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp" />
+            android:layout_alignTop="@+id/button_drop_down"
+            android:layout_toLeftOf="@+id/strut"
+            android:layout_toStartOf="@+id/strut"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"/>
 
     </RelativeLayout>
 
