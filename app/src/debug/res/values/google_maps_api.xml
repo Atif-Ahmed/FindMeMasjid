@@ -18,4 +18,6 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyAfavqhx7R19jluiyYPpQ5VujUD6PbeBog
     </string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
 </resources>

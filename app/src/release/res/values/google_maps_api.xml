@@ -17,6 +17,7 @@
     string in this file.
     -->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-        YOUR_KEY_HERE
+        AIzaSyB8GZBfXLB3JCc1i6C3-Su-zBfEOSW8csc
     </string>
+    <string name="banner_ad_unit_id">ca-app-pub-4952820368276019/9846086089</string>
 </resources>
