@@ -407,7 +407,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             try {
                 data = downloadUrl(url[0]);
             } catch (Exception e) {
-                Log.d("Background Task", e.toString());
             }
             return data;
         }
@@ -478,7 +477,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 places = placeJson.parse(jObject);
 
             } catch (Exception e) {
-                Log.d("Exception", e.toString());
+
             }
             return places;
         }
@@ -701,7 +700,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             editor.putInt("run_count",count);
             editor.apply();
         }
-        Log.d("app_run_counter", "App Run: " + count);
+
 
 
         if(count == 1){

@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.apps.genutek.fineme_masjid", appContext.getPackageName());
+        assertEquals("com.apps.genutek.find_me_masjid", appContext.getPackageName());
     }
 }
