@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">Find Me Masjid</string>
+    <string name="app_short_desc">\n Try out this application for finding Masjid around you. \n </string>
+    <string name="app_url">www.application.url.com</string>
     <string name="Login">Login</string>
+    <string name="okay">Okay</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="contentDescription_logo">App Logo inspired by Freepik</string>
+    <string name="logo_image_desc">App Logo inspired by Freepik</string>
     <string name="signup_text">Don\'t have an account yet? Signup</string>
+    <string name="share_popup_title">choose one</string>
     <string name="title_activity_maps">Map</string>
     <string name="forgot_your_password">Forgot your password</string>
     <string name="name">Name</string>
@@ -12,7 +16,7 @@
     <string name="country">Country</string>
     <string name="map_search_hint">Location, City</string>
     <string name="search">Search</string>
-    <string name="marker_icon_desc">Icon for maker info</string>
+    <string name="marker_icon_desc">Icon for marker info</string>
     <string name="infoWindow_navigate">Click here to navigate to this masjid</string>
     <string name="about">About Me</string>
     <string name="feedback">Feedback</string>
@@ -21,6 +25,49 @@
     <string name="support_me">Support Me</string>
     <string name="thank_you">Thank you</string>
     <string name="tutorial_image">tutorial</string>
-
-
+    <string name="app_ads_id">ca-app-pub-4952820368276019~2433897285</string>
+    <string name="fetching_coordinates">Getting Location from GPS</string>
+    <string name="enable_gps_message">Your GPS is disabled, do you want to enable your GPS ?</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="requested_location">Location</string>
+    <string name="about_me_message">
+        About:
+        \n
+        \n I am a Student of Masters in Computer Science (Artificial Intelligence and Computer Vision) in University of Malaya.\n
+        \n My passion for programming started since I was kid, I create my first game application when I 16 years old.\n
+        \n I have done project in multiple programming language including python, C/C++, Java, PHP, HTML, CSS, JavaScript.\n
+        \n My Area of expertise includes Full-Stack Web Development, Artificial Intelligence and Deep Learning, Computer Vision,
+        Mobile Application ,Game Development, Graphic and Animations.\n
+        \n I am open to any suggestion, comments, and help requests. If you like to contact me, please drop me an email at \n
+        \n atifahmed0276@gmail.com \n
+        \n P.S. Please remember me and my family in your prayers. JazakAllah Khair.</string>
+    <string name="feedback_message">
+        Dear Valued Users
+        \n
+        Your input is very important and hold a  very high value in developing better and improved applications which suites your requirements.
+        Please feel free to provide comments, suggestions and feedback and send it to my email.
+        \n
+        \n
+        atifahmed0276@gmail.com
+    </string>
+    <string name="location_found_error">
+        Problem occurred while finding location. Make sure location is correct.\n
+        Provide more details of your location. e.g. Aal Al Bait, Damascus </string>
+    <string name="intro_message">
+        Thanks you for trying out Find Me Masjid.\n
+        \n
+        How to Find Masjid
+        \n
+        \n1. You can search for masjid at any location around the world, using search box. For better result provide precise location.
+        \n for example
+        \n Umayyain Square, Damascus
+        \n White Chapel, London
+        \n
+        \n 2. You can find masjid near your location,  by tapping GPS icon beside search box.
+        \n
+        \n 3. More information can be found by tapping icon on upper right corner.
+        \n
+    </string>
+    <string name="genutek_logo_image_desc">genutek logo image</string>
 </resources>

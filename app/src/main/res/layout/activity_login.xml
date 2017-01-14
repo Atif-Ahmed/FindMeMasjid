@@ -85,7 +85,7 @@
     <ImageView
         app:srcCompat="@drawable/logo"
         android:id="@+id/imageView_logo"
-        android:contentDescription="@string/contentDescription_logo"
+        android:contentDescription="@string/logo_image_desc"
         android:layout_marginBottom="30dp"
         android:layout_width="150dp"
         android:layout_above="@+id/editText_email"

@@ -15,14 +15,15 @@
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:id="@+id/imageView2"/>
+        android:id="@+id/imageView2"
+        android:contentDescription="@string/genutek_logo_image_desc"/>
 
     <ImageView
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/logo"
         android:id="@+id/imageView"
-        android:contentDescription="@string/contentDescription_logo"
+        android:contentDescription="@string/logo_image_desc"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
 </RelativeLayout>

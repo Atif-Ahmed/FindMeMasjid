@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -23,7 +22,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -142,7 +140,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         // init advert
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-4952820368276019~2433897285");
+        MobileAds.initialize(getApplicationContext(),  getResources().getString(R.string.app_ads_id));
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -158,10 +156,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
         getCountryLongLat();
-
-        // Add a marker in KL and move the camera
         LatLng country = new LatLng(latitude, longitude);
-        //mMap.addMarker(new MarkerOptions().position(country).title("Marker"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(country, 4));
         // marker click listener
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -207,10 +202,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         } catch (Exception e) {
             if(isLocation) {
-                showDialog("Problem occurred while finding location. \n" +
-                        "Make sure location is correct.\n" +
-                        "Provide more details of your location. \n" +
-                        "e.g. Aal Al Bait, Damascus, Syria");
+                showDialog(getResources().getString(R.string.location_found_error));
                 e.printStackTrace();
             }
         }
@@ -279,7 +271,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     FetchCoordinates.this.cancel(true);
                 }
             });
-            progress_dialog.setMessage("Fetching Co-ordinates..");
+            progress_dialog.setMessage(getResources().getString(R.string.fetching_coordinates));
             progress_dialog.setIndeterminate(true);
             progress_dialog.setCancelable(true);
             progress_dialog.show();
@@ -288,20 +280,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         protected void onCancelled() {
-            System.out.println("Cancelled by user!");
             progress_dialog.dismiss();
             mLocationManager.removeUpdates(locationListener);
         }
 
         @Override
         protected void onPostExecute(String result) {
-
             progress_dialog.dismiss();
             updateMap();
             PlacesTask placesTask = new PlacesTask();
             placesTask.execute(sbMethod());
             mLocationManager.removeUpdates(locationListener);
-
         }
 
         @Override
@@ -339,14 +328,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+        builder.setMessage(getResources().getString(R.string.enable_gps_message))
                 .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         dialog.cancel();
                     }
@@ -362,7 +351,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void updateMap() {
         mMap.clear();
         LatLng location = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(location).title("Requested Location"));
+        mMap.addMarker(new MarkerOptions().position(location).title(getResources().getString(R.string.requested_location)));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14));
     }
 
@@ -372,7 +361,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         builder.setCancelable(true);
 
         builder.setPositiveButton(
-                "Yes",
+                getResources().getString(R.string.yes),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -508,21 +497,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public class Place_JSON {
 
-        /**
-         * Receives a JSONObject and returns a list
-         */
         public List<HashMap<String, String>> parse(JSONObject jObject) {
-
             JSONArray jPlaces = null;
             try {
-                /** Retrieves all the elements in the 'places' array */
                 jPlaces = jObject.getJSONArray("results");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            /** Invoking getPlaces with the array of json object
-             * where each json object represent a place
-             */
             return getPlaces(jPlaces);
         }
 
@@ -531,10 +512,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             List<HashMap<String, String>> placesList = new ArrayList<>();
             HashMap<String, String> place;
 
-            /** Taking each place, parses and adds to list object */
             for (int i = 0; i < placesCount; i++) {
                 try {
-                    /** Call getPlace with place JSON object to parse the place */
                     place = getPlace((JSONObject) jPlaces.get(i));
                     placesList.add(place);
                 } catch (JSONException e) {
@@ -543,10 +522,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             return placesList;
         }
-
-        /**
-         * Parsing the Place JSON object
-         */
         private HashMap<String, String> getPlace(JSONObject jPlace) {
 
             HashMap<String, String> place = new HashMap<String, String>();
@@ -623,22 +598,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //Drop Down Popup page
     public AlertDialog showAboutDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setMessage("About: \n" +
-                "\n" +
-                "I am a Student of Masters in Computer Science (Artificial Intelligence & Computer Vision) in University of Malaya.\n" +
-                "\n" +
-                "My passion for programming started since I was kid, I create my first game application when I 16 years old.\n" +
-                "\n" +
-                "I have done project in multiple programming language including python, C/C++, Java, PHP, HTML, CSS, JavaScript.\n" +
-                "\n" +
-                "My Area of expertise includes  Full-Stack Web Development, Artificial Intelligence & Deep Learning, Computer Vision, Mobile Application , " +
-                "Game Development, Graphic & Animations.\n" +
-                "\n" +
-                "I am open to any suggestion, comments, and help requests. If you like to contact me, please drop me an email at \n" +
-                "\n" +
-                "atifahmed0276@gmail.com \n" +
-                "\n" +
-                "P.S. Please remember me and my parents in your prayers. JazakAllah Khair." );
+        builder.setMessage(getResources().getString(R.string.about_me_message) );
 
         builder.setCancelable(true);
 
@@ -656,11 +616,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
-            i.putExtra(Intent.EXTRA_SUBJECT, "TESSTING>>>");
-            String sAux = "\n Try out this application for finding Masjid around you. \n\n";
-            sAux = sAux + "ja ja  ja ma ma ja ja ja\n\n";
+            i.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.app_name));
+            String sAux = getResources().getString(R.string.app_short_desc);
+            sAux = sAux + getResources().getString(R.string.app_url);
             i.putExtra(Intent.EXTRA_TEXT, sAux);
-            startActivity(Intent.createChooser(i, "choose one"));
+            startActivity(Intent.createChooser(i, getResources().getString(R.string.share_popup_title)));
         } catch(Exception e) {
 
         }
@@ -669,15 +629,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public AlertDialog feedBackPage(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setMessage("Dear Valued Users \n" +
-                "\n" +
-                "Your input is very important and hold a  very high value in developing better and improved applications which suites your requirements." +
-                " Please feel free to provide comments, suggestions and feedback and send it to my email.\n" +
-                "\n" +
-                "atifahmed0276@gmail.com" );
-
+        builder.setMessage(getResources().getString(R.string.feedback_message) );
         builder.setCancelable(true);
-
         AlertDialog about = builder.create();
         about.show();
         TextView messageView = (TextView) about.findViewById(android.R.id.message);
@@ -708,25 +661,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         if(count == 1){
             final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-            builder.setPositiveButton("Okay",new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.okay),new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.cancel();
                 }
             });
-            builder.setMessage("Thanks you for trying out Find Me Masjid.\n" +
-                    " \n" +
-                    "... How to Find Masjid ...." +
-                    "\n" +
-                    "\n1. You can search for masjid at any location around the world, using search box." +
-                    " For better result provide precise location." +
-                    "\n for example " +
-                    "\n Umayyain Square, Damascus  " +
-                    "\n White Chapel, London" +
-                    "\n" +
-                    "\n 2. You can find masjid near your location,  by tapping GPS icon beside search box." +
-                    "\n" +
-                    "\n 3. More information can be found by tapping icon on upper right corner." +
-                    "\n");
+            builder.setMessage(getResources().getString(R.string.intro_message));
 
             builder.setCancelable(true);
 
@@ -742,6 +682,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return about;
         }
         return null;
+    }
+
+    public void onClick_zoom_in(View view){
+            float zoom = mMap.getCameraPosition().zoom;
+            double longi = mMap.getCameraPosition().target.longitude;
+            double lati = mMap.getCameraPosition().target.latitude;
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lati,longi), zoom + 1 ));
+    }
+
+    public void onClick_zoom_out(View view){
+        float zoom = mMap.getCameraPosition().zoom;
+        double longi = mMap.getCameraPosition().target.longitude;
+        double lati = mMap.getCameraPosition().target.latitude;
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lati,longi), zoom - 1 ));
+
     }
 
 }
