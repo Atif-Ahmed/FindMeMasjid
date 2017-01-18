@@ -13,6 +13,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,10 +22,12 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,6 +41,9 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -61,6 +68,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -70,9 +78,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private double latitude = 33.6;
     private double longitude = 73.1;
+    private RewardedVideoAd mRewardedVideoAd;
+
+    private static int support_point = 0;
 
     private double marker_Latitude;
     private double marker_Longitude;
+
+    private TextView remove_ads_score;
+    private TextView support_me_score;
+    // check from where the request is coming from... remove ads page or support me page.
+    String add_request_from;
+
+    private long timeout = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return false;
             }
         });
-        // create listener for edit text icon (search icon of the right side)
+        // create listener for search icon (search icon of the right side)
         editText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -118,6 +136,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.item_remove_ads:
+                                removeAds();
                                 return true;
                             case R.id.item_feedback:
                                 feedBackPage();
@@ -126,6 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 sharePage();
                                 return true;
                             case R.id.item_support_me:
+                                support();
                                 return true;
                             case R.id.item_about:
                                 showAboutDialog();
@@ -140,19 +160,92 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         // init advert
-        MobileAds.initialize(getApplicationContext(),  getResources().getString(R.string.app_ads_id));
+        MobileAds.initialize(getApplicationContext(), getResources().getString(R.string.app_ads_id));
         AdView mAdView = (AdView) findViewById(R.id.adView);
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
+            @Override
+            public void onRewardedVideoAdLoaded() {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdOpened() {
+
+            }
+
+            @Override
+            public void onRewardedVideoStarted() {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdClosed() {
+                loadRewardedVideoAd();
+            }
+
+            @Override
+            public void onRewarded(RewardItem rewardItem) {
+                int amount = rewardItem.getAmount();
+                support_point = support_point + amount;
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("support_point", support_point);
+                editor.apply();
+                if(add_request_from.equals("removeAds"))
+                    remove_ads_score.setText(support_point + " / 100");
+                if(add_request_from.equals("support"))
+                    support_me_score.setText(new Integer(support_point).toString());
+
+            }
+
+            @Override
+            public void onRewardedVideoAdLeftApplication() {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdFailedToLoad(int i) {
+
+            }
+        });
+        loadRewardedVideoAd();
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        getEarnedSupportPoints();
 
 
     }
 
-    public void onMapReady(GoogleMap googleMap) {
-        AppExecutionCounter();
+    @Override
+    public void onPause(){
+        super.onPause();
+        mRewardedVideoAd.pause(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mRewardedVideoAd.resume(this);
+    }
+
+    private void loadRewardedVideoAd() {
+        if (!mRewardedVideoAd.isLoaded()) {
+            mRewardedVideoAd.loadAd(getResources().getString(R.string.video_ad_unit_id), new AdRequest.Builder().build());
+        }
+    }
+
+    private void showRewardedVideo() {
+        if (mRewardedVideoAd.isLoaded()) {
+            mRewardedVideoAd.show();
+        }
+    }
+
+    public void onMapReady(GoogleMap googleMap) {
+
+        AppExecutionCounter();
         mMap = googleMap;
-        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle( this, R.raw.map_style));
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
         getCountryLongLat();
@@ -187,7 +280,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Locale locale = new Locale("", iso);
         String country = locale.getDisplayCountry();
         // Get Current Location
-        getLongLat(country,false);
+        getLongLat(country, false);
     }
 
     private void getLongLat(String location, Boolean isLocation) {
@@ -201,7 +294,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 longitude = longLat.getLongitude();
             }
         } catch (Exception e) {
-            if(isLocation) {
+            if (isLocation) {
                 showDialog(getResources().getString(R.string.location_found_error));
                 e.printStackTrace();
             }
@@ -209,15 +302,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void searchArea() {
-        EditText mEdit = (EditText) findViewById(R.id.EditText_Search);
-        mEdit.clearFocus();
-        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        in.hideSoftInputFromWindow(mEdit.getWindowToken(), 0);
-        String cityText = mEdit.getText().toString();
-        getLongLat(cityText,true);
-        updateMap();
-        PlacesTask placesTask = new PlacesTask();
-        placesTask.execute(sbMethod());
+        if(isNetworkAvailable()) {
+            EditText mEdit = (EditText) findViewById(R.id.EditText_Search);
+            mEdit.clearFocus();
+            InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            in.hideSoftInputFromWindow(mEdit.getWindowToken(), 0);
+            String cityText = mEdit.getText().toString();
+            getLongLat(cityText, true);
+            updateMap();
+            PlacesTask placesTask = new PlacesTask();
+            placesTask.execute(sbMethod());
+        }
+        else{
+            showDialog(getResources().getString(R.string.no_internet_connection));
+        }
     }
 
     @SuppressWarnings("MissingPermission")
@@ -306,23 +404,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void onClick_GPSSearch(View view) {
+        if(isNetworkAvailable()) {
 
-        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps();
-        } else {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                FetchCoordinates f = new FetchCoordinates();
-                f.execute();
+            final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                buildAlertMessageNoGps();
             } else {
-                int isPermissionGranted = 0;
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        isPermissionGranted);
-
-
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    FetchCoordinates f = new FetchCoordinates();
+                    f.execute();
+                } else {
+                    int isPermissionGranted = 0;
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            isPermissionGranted);
+                }
             }
+        }else{
+            showDialog(getResources().getString(R.string.no_internet_connection));
         }
-
 
     }
 
@@ -357,11 +456,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private AlertDialog showDialog(String s) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setMessage(s);
         builder.setCancelable(true);
-
+        builder.setMessage(s);
         builder.setPositiveButton(
-                getResources().getString(R.string.yes),
+                getResources().getString(R.string.okay),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -374,7 +472,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         button.setTextColor(Color.WHITE);
         return alert;
     }
-
 
     //***************************************************************************
     // CODE  FOR FINDING MASJID USING GOOGLE
@@ -522,6 +619,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             return placesList;
         }
+
         private HashMap<String, String> getPlace(JSONObject jPlace) {
 
             HashMap<String, String> place = new HashMap<String, String>();
@@ -598,7 +696,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //Drop Down Popup page
     public AlertDialog showAboutDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setMessage(getResources().getString(R.string.about_me_message) );
+        builder.setMessage(getResources().getString(R.string.about_me_message));
 
         builder.setCancelable(true);
 
@@ -611,7 +709,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //Drop Down Share page
-
     public void sharePage() {
         try {
             Intent i = new Intent(Intent.ACTION_SEND);
@@ -621,15 +718,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             sAux = sAux + getResources().getString(R.string.app_url);
             i.putExtra(Intent.EXTRA_TEXT, sAux);
             startActivity(Intent.createChooser(i, getResources().getString(R.string.share_popup_title)));
-        } catch(Exception e) {
+        } catch (Exception e) {
 
         }
     }
 
-
-    public AlertDialog feedBackPage(){
+    public AlertDialog feedBackPage() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setMessage(getResources().getString(R.string.feedback_message) );
+        builder.setMessage(getResources().getString(R.string.feedback_message));
         builder.setCancelable(true);
         AlertDialog about = builder.create();
         about.show();
@@ -639,29 +735,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return about;
     }
 
-
-    public AlertDialog AppExecutionCounter(){
+    public AlertDialog AppExecutionCounter() {
         // create or load shared preferences
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
-        int count = preferences.getInt("run_count",-100);
+        int count = preferences.getInt("run_count", -100);
         //application is running for first time....
-        if(count == -100){
+        if (count == -100) {
             count = 1;
-            editor.putInt("run_count",count);
+            editor.putInt("run_count", count);
+            editor.apply();
+        } else {
+            count = count + 1;
+            editor.putInt("run_count", count);
             editor.apply();
         }
-        else{
-            count = count +1;
-            editor.putInt("run_count",count);
-            editor.apply();
-        }
 
 
-
-        if(count == 1){
+        if (count == 1) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-            builder.setPositiveButton(getResources().getString(R.string.okay),new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getResources().getString(R.string.okay), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.cancel();
                 }
@@ -684,20 +777,108 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return null;
     }
 
-    public void onClick_zoom_in(View view){
-            float zoom = mMap.getCameraPosition().zoom;
-            double longi = mMap.getCameraPosition().target.longitude;
-            double lati = mMap.getCameraPosition().target.latitude;
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lati,longi), zoom + 1 ));
-    }
-
-    public void onClick_zoom_out(View view){
+    public void onClick_zoom_in(View view) {
         float zoom = mMap.getCameraPosition().zoom;
         double longi = mMap.getCameraPosition().target.longitude;
         double lati = mMap.getCameraPosition().target.latitude;
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lati,longi), zoom - 1 ));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lati, longi), zoom + 1));
+    }
+
+    public void onClick_zoom_out(View view) {
+        float zoom = mMap.getCameraPosition().zoom;
+        double longi = mMap.getCameraPosition().target.longitude;
+        double lati = mMap.getCameraPosition().target.latitude;
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lati, longi), zoom - 1));
 
     }
+
+    public AlertDialog removeAds() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.remove_ads, null);
+        builder.setView(dialogView);
+        remove_ads_score = (TextView)dialogView.findViewById(R.id.text_support_pts_rem_ads);
+        remove_ads_score.setText(support_point + " / 100");
+        final AlertDialog b = builder.create();
+
+        Button show_ads = (Button)dialogView.findViewById(R.id.button_show_rewarded_ads);
+        if(!mRewardedVideoAd.isLoaded()){
+            show_ads.setEnabled(false);
+            show_ads.setBackgroundColor(ContextCompat.getColor(this, R.color.LightGray));
+            TextView no_ads = (TextView)dialogView.findViewById(R.id.text_no_ad);
+            no_ads.setVisibility(View.VISIBLE);
+        }
+        show_ads.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add_request_from = "removeAds";
+                show_rewarded_ads();
+            }
+        });
+        Button add_item = (Button)dialogView.findViewById(R.id.button_goto_support);
+        add_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                support();
+                b.dismiss();
+
+            }
+        });
+        b.show();
+        return b;
+    }
+
+    public AlertDialog support(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.support, null);
+        builder.setView(dialogView);
+        support_me_score = (TextView)dialogView.findViewById(R.id.text_support_score);
+        support_me_score.setText(new Integer(support_point).toString());
+        // show rewarded Advert..
+        Button show_ads = (Button)dialogView.findViewById(R.id.button_show_rewarded_ads);
+        if(!mRewardedVideoAd.isLoaded()){
+            show_ads.setEnabled(false);
+            show_ads.setBackgroundColor(ContextCompat.getColor(this, R.color.LightGray));
+            TextView no_ads = (TextView)dialogView.findViewById(R.id.text_no_ad);
+            no_ads.setVisibility(View.VISIBLE);
+        }
+        show_ads.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add_request_from = "support";
+                show_rewarded_ads();
+
+            }
+        });
+
+        AlertDialog b = builder.create();
+        b.show();
+        return b;
+    }
+
+    private void getEarnedSupportPoints() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        support_point = preferences.getInt("support_point", -100);
+        if(support_point == -100){
+            support_point = 0;
+            editor.putInt("support_point", support_point);
+            editor.apply();
+        }
+    }
+
+    public void show_rewarded_ads() {
+        showRewardedVideo();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 
 }
 

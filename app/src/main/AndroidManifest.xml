@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"  android:maxSdkVersion="18"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -41,6 +43,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity android:name="com.vungle.publisher.VideoFullScreenAdActivity"
+                  android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+
+        <activity android:name="com.vungle.publisher.MraidFullScreenAdActivity"
+                  android:configChanges="keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
+                  android:theme=
+                      "@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -1,23 +1,13 @@
 <resources>
-    <!--
-    TODO: Before you run your application, you need a Google Maps API key.
-
-    To get one, follow this link, follow the directions and press "Create" at the end:
-
-    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=48:02:2C:8F:2E:48:9E:AB:26:5D:AD:74:DB:37:AD:9F:E9:64:98:97%3Bcom.apps.genutek.find_me_masjid
-
-    You can also add your credentials to an existing key, using this line:
-    48:02:2C:8F:2E:48:9E:AB:26:5D:AD:74:DB:37:AD:9F:E9:64:98:97;com.apps.genutek.find_me_masjid
-
-    Alternatively, follow the directions here:
-    https://developers.google.com/maps/documentation/android/start#get-key
-
-    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
-    string in this file.
-    -->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyAfavqhx7R19jluiyYPpQ5VujUD6PbeBog
     </string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="video_ad_unit_id">ca-app-pub-4952820368276019/8873723682</string><!-- this is original -->
 
 </resources>
+
+<!--
+the actual debug testing Key -->
+<!-- <string name="video_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string> --> <!-- this is testing Key -->
+

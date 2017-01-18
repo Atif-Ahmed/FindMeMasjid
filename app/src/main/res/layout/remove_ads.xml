@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="@drawable/background_repeat"
+              android:layout_margin="25dp"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_remove_ads_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/ads_free_title"
+        android:textColor="@android:color/white"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:layout_marginBottom="20dp"/>
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="136dp"
+        android:background="@drawable/ads_free_support_icon"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/suppor_icon_img_desc"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/text_support_pts_rem_ads"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:textSize="36sp"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:text="@string/earn_points_explain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView8"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/button_show_rewarded_ads"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/button"
+        android:text="@string/watch_ads"/>
+
+    <TextView
+        android:text="@string/no_ads_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_no_ad"
+        android:textAlignment="center"
+        android:visibility="gone"/>
+
+    <TextView
+        android:text="@string/text_goto_supportme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:text="@string/button_support_page"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/button_goto_support"
+        android:background="@drawable/button"
+        android:textAlignment="center"
+        android:layout_marginBottom="10dp"/>
+
+
+</LinearLayout>

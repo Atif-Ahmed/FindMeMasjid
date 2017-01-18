@@ -3,15 +3,6 @@
 
     <item
         is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.2.1_af5b3e28ca0c162c9a1542cd966aae668ac4d553\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -27,6 +18,177 @@
         revision="24.0.3"
         sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
         <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.2.1_339bff37fc3096893498323e9311bb84944533be\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\libs\dagger-2.7.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="f60e4926b5f05a62ff73e73b6eb3a856cdc74ddb">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\2\dagger-2.7_72edc045c05d3206d13f7ad784c22aaf5b1afcdf\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="27777b3cad3c20b1acab19f6e37fe3e03371bf6e">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-maps-10.0.1_80cdbfd0f3ca8df0d18da7f37213f20e588682ee\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager-v4-impl\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="f23ad0f8e58713ff4b55f61c0bbde3830378347c">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-v4-impl-10.0.1_0e48b19ec9be09292fc52d64e37d10dc3f48a46d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-common\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="eb0d830e3eabb9deb9ec44869cf7ac7ea1ad794c">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-common-10.0.1_ee7835d2645713dc03c2e1ced015c5f582468899\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_a2a034cfb9ba69bbff66a1d7e6213430a54a7b7e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\multidex\1.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-multidex-1.0.1_158d8baa2fba81908642e62f7eb7b20997e2a8cc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="d0460bf07cc3657e0be518ca01c174493951c6b8">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-10.0.1_fbde3d0652f7f7b8b12d4ad9e80a08b7ee79fbe0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-24.2.1_edd668e3deeecd053a010168efe0bb904798f149\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\libs\vungle-publisher-adaptive-id-4.0.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="fae0db2a4451b16a339db125aeeea165da156d23">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\2\vungle-publisher-adaptive-id-4.0.3_dd132fb1aa7bbce50a39186aeb6d274c3fe976ce\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-24.2.1_0f38d5099f9a677b14757d631ecfbb12ecfa84e8\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gass\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="57c2eceb8548de84509d1ebc293fedec53231f6c">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gass-10.0.1_63cd67e4e0c6d8d3cf3db84cfcc3861db0931552\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="7c5ba81791f3af6f0cea5a9d06d6dc26d456b6ca">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_35dcb76254a9c5b4f99ac9385127133ae8a7debf\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-iid\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="6bb5d347ebc0c6ef3c83a905222a688da5d2f7b4">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-iid-10.0.1_d80ed7e8c0321a14e07548f43c1b265a1c765274\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="a48dc0b148059764d32500be558702d5ff932058">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-identity-10.0.1_26ee81ffa9332eba2c6dfbb52d2ae891e625cb3d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Atif\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.1\support-annotations-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.2.1_1cd6b657003677d449de985f62ce170ff9225b27\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_6481ad92bd180afd482314e8711519e35fc079a6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8308ed003522a2ee8958311afcc4cfd0470377cd">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gcm-10.0.1_0af5ffcfff5bfde4bff4cfdbcb0d9badde9e5a7b\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-iid\10.0.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="486371f97baad8e607f332f20fee1d3dd00a731a">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-iid-10.0.1_7211c1824819401f24a5cadd3e0be5801a029b4e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.2.1_af5b3e28ca0c162c9a1542cd966aae668ac4d553\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -57,15 +219,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="27777b3cad3c20b1acab19f6e37fe3e03371bf6e">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-maps-10.0.1_80cdbfd0f3ca8df0d18da7f37213f20e588682ee\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-places\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -84,15 +237,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tagmanager-v4-impl\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="f23ad0f8e58713ff4b55f61c0bbde3830378347c">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-tagmanager-v4-impl-10.0.1_0e48b19ec9be09292fc52d64e37d10dc3f48a46d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-appindexing\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -102,21 +246,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-common\10.0.1\jars\classes.jar"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\libs\javax.inject-1.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="eb0d830e3eabb9deb9ec44869cf7ac7ea1ad794c">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-common-10.0.1_ee7835d2645713dc03c2e1ced015c5f582468899\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_a2a034cfb9ba69bbff66a1d7e6213430a54a7b7e\classes.dex" />
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\2\javax.inject-1_0a251714ae5b083936ff0dadf92213bd3b221f05\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -129,12 +264,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\multidex\1.0.1\jars\classes.jar"
+        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\VungleAdapter\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-multidex-1.0.1_158d8baa2fba81908642e62f7eb7b20997e2a8cc\classes.dex" />
+        sha1="cbc4b4d7d6dc19c7ccd2cc004f311eee367c7b16">
+        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\intermediates-exploded-aar-VungleAdapter_8a017d718982ae5d95a39c7917cff3d0a3f16ace\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -142,26 +277,8 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="a6f4fb9154be538cb43a4146a5bcf917b64c74bf">
+        sha1="ae62303e30e0e9845d43fc9eaa47c3d043aed880">
         <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_bb665188165966b2f311ce00c449ce427f120e03\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="d0460bf07cc3657e0be518ca01c174493951c6b8">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-10.0.1_fbde3d0652f7f7b8b12d4ad9e80a08b7ee79fbe0\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-24.2.1_edd668e3deeecd053a010168efe0bb904798f149\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -201,30 +318,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-24.2.1_0f38d5099f9a677b14757d631ecfbb12ecfa84e8\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads-lite\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="b955cb3a1ad6f1b6ff728ce1e0cd592c1717b440">
         <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-lite-10.0.1_31addc393d60ecf5c50d8aa21b5400a9089b90f5\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gass\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="57c2eceb8548de84509d1ebc293fedec53231f6c">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gass-10.0.1_63cd67e4e0c6d8d3cf3db84cfcc3861db0931552\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -255,48 +354,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="56b1b14d01be66356df4ce855dcd178eef9a373a">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_35dcb76254a9c5b4f99ac9385127133ae8a7debf\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-iid\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="6bb5d347ebc0c6ef3c83a905222a688da5d2f7b4">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-iid-10.0.1_d80ed7e8c0321a14e07548f43c1b265a1c765274\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-analytics\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="433f4d6aa5f21f19552afe0e6c5eff0fedba73ad">
         <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-analytics-10.0.1_1ccb95a3647f779bba08f8bc7d4db6e2e40ca93c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="a48dc0b148059764d32500be558702d5ff932058">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-identity-10.0.1_26ee81ffa9332eba2c6dfbb52d2ae891e625cb3d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Atif\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.1\support-annotations-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.2.1_1cd6b657003677d449de985f62ce170ff9225b27\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -315,33 +378,6 @@
         revision="24.0.3"
         sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
         <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_46ff9506c092c6c49247664b96dd3c44cf35075b\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_6481ad92bd180afd482314e8711519e35fc079a6\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="8308ed003522a2ee8958311afcc4cfd0470377cd">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gcm-10.0.1_0af5ffcfff5bfde4bff4cfdbcb0d9badde9e5a7b\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\exploded-aar\com.google.firebase\firebase-iid\10.0.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="486371f97baad8e607f332f20fee1d3dd00a731a">
-        <dex dex="C:\MyStuff\Android\FindMe_Masjid\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.firebase-firebase-iid-10.0.1_7211c1824819401f24a5cadd3e0be5801a029b4e\classes.dex" />
     </item>
     <item
         is-multidex="true"
