@@ -2,6 +2,6 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyB8GZBfXLB3JCc1i6C3-Su-zBfEOSW8csc
     </string>
-    <string name="banner_ad_unit_id">ca-app-pub-4952820368276019/9846086089</string>
-    <string name="video_ad_unit_id">ca-app-pub-4952820368276019/8873723682</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-4952820368276019/9846086089</string>
+    <string name="video_ad_unit_id" translatable="false">ca-app-pub-4952820368276019/8873723682</string>
 </resources>

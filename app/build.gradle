@@ -7,8 +7,8 @@ android {
         applicationId "com.apps.genutek.find_me_masjid"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 4
-        versionName "1.1"
+        versionCode 5
+        versionName "1.2b"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
