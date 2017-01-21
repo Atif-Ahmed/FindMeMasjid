@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="Blue">#3355bb</color>
+    <color name="Blue">#963355bb</color>
     <color name="White">#ffffff</color>
     <color name="Green">#004422</color>
     <color name="LightGreen">#228844</color>
     <color name="Black">#000000</color>
     <color name="VeryLightGreen">#99cc99</color>
-    <color name="DarkerGreen">#003311</color>
+    <color name="DarkerGreen">#4d003311</color>
     <color name="LightGray">#777777</color>
+    <color name="GreenTransparent">#4000ff90</color>
 </resources>

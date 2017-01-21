@@ -36,8 +36,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.apps.genutek.find_me_masjid.utils.IabHelper;
+import com.apps.genutek.find_me_masjid.utils.IabResult;
+import com.apps.genutek.find_me_masjid.utils.Inventory;
+import com.apps.genutek.find_me_masjid.utils.Purchase;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -68,13 +73,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
+
+import static com.apps.genutek.find_me_masjid.R.id.adView;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
 
     private double latitude = 33.6;
     private double longitude = 73.1;
@@ -87,18 +92,121 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private TextView remove_ads_score;
     private TextView support_me_score;
+
+
+
+    private TextView text_support_20;
+    private TextView text_support_50;
+    private TextView text_support_100;
+    private TextView text_support_200;
+
+    //in-app items
+    String support_20_price,support_50_price,support_100_price,support_200_price;
+    static final String support_20 = "support_20";
+    static final String support_50 = "support_50";
+    static final String support_100 = "support_100";
+    static final String support_200 = "support_200";
+    Inventory inventory;
+
+    //in-app purchase related variables
+    IabHelper mHelper;
+    Boolean is_in_app_purchase_available = false;
+
+    //in-app purchase related listeners
+    private IabHelper.QueryInventoryFinishedListener mGotInventoryListener =
+            new IabHelper.QueryInventoryFinishedListener() {
+                public void onQueryInventoryFinished(IabResult result, Inventory inv) {
+                    if (result.isFailure()) {
+                        // handle error here
+                    }
+                    else {
+                        inventory = inv;
+                        //if any item purchased then consume it...
+                        try {
+                            if(inv.getPurchase(support_20) != null) mHelper.consumeAsync(inv.getPurchase(support_20), mConsumeFinishedListener);
+                            if(inv.getPurchase(support_50) != null) mHelper.consumeAsync(inv.getPurchase(support_50), mConsumeFinishedListener);
+                            if(inv.getPurchase(support_100) != null) mHelper.consumeAsync(inv.getPurchase(support_100), mConsumeFinishedListener);
+                            if(inv.getPurchase(support_200) != null) mHelper.consumeAsync(inv.getPurchase(support_200), mConsumeFinishedListener);
+
+                        } catch (IabHelper.IabAsyncInProgressException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            };
+
+    // Called when consumption is complete
+    private IabHelper.OnConsumeFinishedListener mConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
+        public void onConsumeFinished(Purchase purchase, IabResult result) {
+
+            if (mHelper == null) return;
+
+            if (result.isSuccess()) {
+
+            }
+
+        }
+    };
+
+    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener
+            = new IabHelper.OnIabPurchaseFinishedListener() {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+            if (!result.isFailure()) {
+                int amount = 0;
+                try {
+                    if (purchase.getSku().equals(support_20)) {
+                        amount = 20;
+                        mHelper.consumeAsync(inventory.getPurchase(support_20), mConsumeFinishedListener);
+                    }
+                    if (purchase.getSku().equals(support_50)) {
+                        amount = 50;
+                        mHelper.consumeAsync(inventory.getPurchase(support_50), mConsumeFinishedListener);
+                    }
+                    if (purchase.getSku().equals(support_100)) {
+                        amount = 100;
+                        mHelper.consumeAsync(inventory.getPurchase(support_100), mConsumeFinishedListener);
+                    }
+                    if (purchase.getSku().equals(support_200)) {
+                        amount = 200;
+                        mHelper.consumeAsync(inventory.getPurchase(support_200), mConsumeFinishedListener);
+                    }
+                } catch (Exception e) {
+
+                }
+                showDialog(getResources().getString(R.string.thanks_for_purchase));
+                support_point = support_point + amount;
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putInt("support_point", support_point);
+                editor.apply();
+                support_me_score.setText(new Integer(support_point).toString());
+                //hide banner if greater than 100
+                if(support_point >= 100){
+                    findViewById(R.id.layout_ads).setVisibility(View.GONE);
+                }
+            }
+
+        }
+    };
+
+
+
     // check from where the request is coming from... remove ads page or support me page.
-    String add_request_from;
+    String request_originated_from;
 
     private long timeout = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //show intro_dialog
+        AppExecutionCounter();
 
         // create action listener for text
         final EditText editText = (EditText) findViewById(R.id.EditText_Search);
@@ -147,6 +255,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             case R.id.item_support_me:
                                 support();
                                 return true;
+                            case R.id.how_to_use:
+                                introScreen();
+                                return true;
                             case R.id.item_about:
                                 showAboutDialog();
                                 return true;
@@ -159,9 +270,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        //init in app purchase
+        mHelper = new IabHelper(this, "2DZIyW2ciS77LHd9otNqLI8kht6gm3HxNeLr9pH0AHRUln2GLD57xxSRxUGD1Wi52DZIyW2ciS77L8kht6gm3HxNeL" +
+                "r9pH0AHRUln2GLD57xxHd9otNqLISRxUGD1Wi52DZIyW2ciS77LHd9otNqLISRxUGD1Wi5");
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                if (!result.isSuccess()) {
+                    is_in_app_purchase_available =false;
+                }
+                else{
+                    try {
+                        mHelper.queryInventoryAsync(mGotInventoryListener);
+                    } catch (IabHelper.IabAsyncInProgressException e) {
+
+                    }
+                    is_in_app_purchase_available = true;
+                }
+            }
+        });
+
+
+
         // init advert
         MobileAds.initialize(getApplicationContext(), getResources().getString(R.string.app_ads_id));
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdView mAdView = (AdView) findViewById(adView);
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedVideoAd.setRewardedVideoAdListener(new RewardedVideoAdListener() {
             @Override
@@ -192,10 +324,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putInt("support_point", support_point);
                 editor.apply();
-                if(add_request_from.equals("removeAds"))
+                if(request_originated_from.equals("removeAds"))
                     remove_ads_score.setText(support_point + " / 100");
-                if(add_request_from.equals("support"))
+                if(request_originated_from.equals("support"))
                     support_me_score.setText(new Integer(support_point).toString());
+                if(support_point >= 100){
+                    findViewById(R.id.layout_ads).setVisibility(View.GONE);
+                }
 
             }
 
@@ -215,6 +350,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getEarnedSupportPoints();
 
 
+
+
     }
 
     @Override
@@ -229,21 +366,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mRewardedVideoAd.resume(this);
     }
 
-    private void loadRewardedVideoAd() {
-        if (!mRewardedVideoAd.isLoaded()) {
-            mRewardedVideoAd.loadAd(getResources().getString(R.string.video_ad_unit_id), new AdRequest.Builder().build());
-        }
-    }
-
-    private void showRewardedVideo() {
-        if (mRewardedVideoAd.isLoaded()) {
-            mRewardedVideoAd.show();
-        }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mHelper != null)
+            try {
+                mHelper.dispose();
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                e.printStackTrace();
+            }
+        mHelper = null;
     }
 
     public void onMapReady(GoogleMap googleMap) {
 
-        AppExecutionCounter();
         mMap = googleMap;
         mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -270,11 +406,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 onClick_routeButton();
             }
         });
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                latitude = latLng.latitude;
+                longitude = latLng.longitude;
+                updateMap();
+                PlacesTask placesTask = new PlacesTask();
+                placesTask.execute(sbMethod());
+            }
+        });
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDrag(Marker marker) {
+
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker marker) {
+                LatLng latLng =  marker.getPosition();
+                latitude = latLng.latitude;
+                longitude = latLng.longitude;
+                updateMap();
+                PlacesTask placesTask = new PlacesTask();
+                placesTask.execute(sbMethod());
+            }
+        });
 
 
     }
 
-    private void getCountryLongLat() {
+    public void getCountryLongLat() {
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         String iso = tm.getNetworkCountryIso();
         Locale locale = new Locale("", iso);
@@ -283,7 +451,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getLongLat(country, false);
     }
 
-    private void getLongLat(String location, Boolean isLocation) {
+    public void getLongLat(String location, Boolean isLocation) {
         Geocoder coder = new Geocoder(this);
         List<Address> address;
         try {
@@ -317,6 +485,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             showDialog(getResources().getString(R.string.no_internet_connection));
         }
     }
+
 
     @SuppressWarnings("MissingPermission")
     public class FetchCoordinates extends AsyncTask<String, Integer, String> {
@@ -425,7 +594,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void buildAlertMessageNoGps() {
+    public void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setMessage(getResources().getString(R.string.enable_gps_message))
                 .setCancelable(false)
@@ -447,14 +616,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         button.setTextColor(Color.WHITE);
     }
 
-    private void updateMap() {
+    public void updateMap() {
         mMap.clear();
         LatLng location = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(location).title(getResources().getString(R.string.requested_location)));
+        mMap.addMarker(new MarkerOptions().position(location).title(getResources().getString(R.string.requested_location)).draggable(true));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14));
     }
 
-    private AlertDialog showDialog(String s) {
+    public AlertDialog showDialog(String s) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setCancelable(true);
         builder.setMessage(s);
@@ -473,6 +642,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return alert;
     }
 
+
     //***************************************************************************
     // CODE  FOR FINDING MASJID USING GOOGLE
     //***************************************************************************
@@ -487,7 +657,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return sb;
     }
 
-    private class PlacesTask extends AsyncTask<String, Integer, String> {
+    public class PlacesTask extends AsyncTask<String, Integer, String> {
 
         String data = null;
 
@@ -512,7 +682,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private String downloadUrl(String strUrl) throws IOException {
+    public String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
         HttpURLConnection urlConnection = null;
@@ -550,7 +720,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return data;
     }
 
-    private class ParserTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
+    public class ParserTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
 
         JSONObject jObject;
 
@@ -604,7 +774,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return getPlaces(jPlaces);
         }
 
-        private List<HashMap<String, String>> getPlaces(JSONArray jPlaces) {
+        public List<HashMap<String, String>> getPlaces(JSONArray jPlaces) {
             int placesCount = jPlaces.length();
             List<HashMap<String, String>> placesList = new ArrayList<>();
             HashMap<String, String> place;
@@ -620,7 +790,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return placesList;
         }
 
-        private HashMap<String, String> getPlace(JSONObject jPlace) {
+        public HashMap<String, String> getPlace(JSONObject jPlace) {
 
             HashMap<String, String> place = new HashMap<String, String>();
             String placeName = "-NA-";
@@ -694,9 +864,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //Drop Down Popup page
-    public AlertDialog showAboutDialog() {
+    public void showAboutDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-        builder.setMessage(getResources().getString(R.string.about_me_message));
+        builder.setMessage(getResources().getString(R.string.about_us_message));
 
         builder.setCancelable(true);
 
@@ -705,7 +875,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         TextView messageView = (TextView) about.findViewById(android.R.id.message);
         messageView.setLinkTextColor(Color.YELLOW);
         messageView.setGravity(Gravity.CENTER);
-        return about;
     }
 
     //Drop Down Share page
@@ -723,7 +892,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public AlertDialog feedBackPage() {
+    public void feedBackPage() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
         builder.setMessage(getResources().getString(R.string.feedback_message));
         builder.setCancelable(true);
@@ -732,10 +901,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         TextView messageView = (TextView) about.findViewById(android.R.id.message);
         messageView.setLinkTextColor(Color.YELLOW);
         messageView.setGravity(Gravity.CENTER);
-        return about;
     }
 
-    public AlertDialog AppExecutionCounter() {
+    public void AppExecutionCounter() {
         // create or load shared preferences
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
@@ -753,28 +921,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         if (count == 1) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyDialogTheme);
-            builder.setPositiveButton(getResources().getString(R.string.okay), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                }
-            });
-            builder.setMessage(getResources().getString(R.string.intro_message));
-
-            builder.setCancelable(true);
-
-
-            AlertDialog about = builder.create();
-            about.show();
-            Button button = about.getButton(DialogInterface.BUTTON_POSITIVE);
-            button.setTextColor(Color.WHITE);
-            button.setGravity(Gravity.CENTER);
-            button.setTextSize(20);
-            TextView messageView = (TextView) about.findViewById(android.R.id.message);
-            messageView.setGravity(Gravity.CENTER);
-            return about;
+            // ask for GPS permission if not allowed yet....
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                int isPermissionGranted = 0;
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        isPermissionGranted);
+            }
+            introScreen();
         }
-        return null;
+
+        if (count %10 == 0) {
+          support();
+        }
     }
 
     public void onClick_zoom_in(View view) {
@@ -792,14 +950,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public AlertDialog removeAds() {
+    public void removeAds() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.remove_ads, null);
         builder.setView(dialogView);
         remove_ads_score = (TextView)dialogView.findViewById(R.id.text_support_pts_rem_ads);
         remove_ads_score.setText(support_point + " / 100");
-        final AlertDialog b = builder.create();
+        final AlertDialog removeAdsScreen = builder.create();
 
         Button show_ads = (Button)dialogView.findViewById(R.id.button_show_rewarded_ads);
         if(!mRewardedVideoAd.isLoaded()){
@@ -811,53 +969,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         show_ads.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_request_from = "removeAds";
+                request_originated_from = "removeAds";
                 show_rewarded_ads();
             }
         });
-        Button add_item = (Button)dialogView.findViewById(R.id.button_goto_support);
-        add_item.setOnClickListener(new View.OnClickListener() {
+        Button gotoSupport = (Button)dialogView.findViewById(R.id.button_goto_support);
+        gotoSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 support();
-                b.dismiss();
+                removeAdsScreen.dismiss();
 
             }
         });
-        b.show();
-        return b;
+        removeAdsScreen.show();
     }
 
-    public AlertDialog support(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.support, null);
-        builder.setView(dialogView);
-        support_me_score = (TextView)dialogView.findViewById(R.id.text_support_score);
-        support_me_score.setText(new Integer(support_point).toString());
-        // show rewarded Advert..
-        Button show_ads = (Button)dialogView.findViewById(R.id.button_show_rewarded_ads);
-        if(!mRewardedVideoAd.isLoaded()){
-            show_ads.setEnabled(false);
-            show_ads.setBackgroundColor(ContextCompat.getColor(this, R.color.LightGray));
-            TextView no_ads = (TextView)dialogView.findViewById(R.id.text_no_ad);
-            no_ads.setVisibility(View.VISIBLE);
-        }
-        show_ads.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                add_request_from = "support";
-                show_rewarded_ads();
-
-            }
-        });
-
-        AlertDialog b = builder.create();
-        b.show();
-        return b;
-    }
-
-    private void getEarnedSupportPoints() {
+    public void getEarnedSupportPoints() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         support_point = preferences.getInt("support_point", -100);
@@ -872,11 +1000,187 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         showRewardedVideo();
     }
 
-    private boolean isNetworkAvailable() {
+    public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void loadRewardedVideoAd() {
+        if (!mRewardedVideoAd.isLoaded()) {
+            mRewardedVideoAd.loadAd(getResources().getString(R.string.video_ad_unit_id), new AdRequest.Builder().build());
+        }
+    }
+
+    public void showRewardedVideo() {
+        if (mRewardedVideoAd.isLoaded()) {
+            mRewardedVideoAd.show();
+        }
+    }
+
+    //support page.....
+    public void support(){
+        //fetch price list in local currency from google.
+        getPriceList();
+
+
+        // create and setup Dialog window
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.support, null);
+
+        builder.setView(dialogView);
+
+        support_me_score = (TextView)dialogView.findViewById(R.id.text_support_score);
+        support_me_score.setText(new Integer(support_point).toString());
+
+        text_support_20 = (TextView)dialogView.findViewById(R.id.text_price_20);
+        text_support_50 = (TextView)dialogView.findViewById(R.id.text_price_50);
+        text_support_100 = (TextView)dialogView.findViewById(R.id.text_price_100);
+        text_support_200 = (TextView)dialogView.findViewById(R.id.text_price_200);
+
+        //check if inapp purchase is available
+        if(is_in_app_purchase_available){
+            //change the button to be active.
+            dialogView.findViewById(R.id.button_s_20).setEnabled(true);
+            dialogView.findViewById(R.id.button_s_20).setBackgroundResource(R.drawable.support_10);
+
+            dialogView.findViewById(R.id.button_s_50).setEnabled(true);
+            dialogView.findViewById(R.id.button_s_50).setBackgroundResource(R.drawable.support_25);
+
+            dialogView.findViewById(R.id.button_s_100).setEnabled(true);
+            dialogView.findViewById(R.id.button_s_100).setBackgroundResource(R.drawable.support_50);
+
+            dialogView.findViewById(R.id.button_s_200).setEnabled(true);
+            dialogView.findViewById(R.id.button_s_200).setBackgroundResource(R.drawable.support_100);
+        }
+
+
+
+        // show rewarded Advert..
+        Button show_ads = (Button)dialogView.findViewById(R.id.button_show_rewarded_ads);
+        if(!mRewardedVideoAd.isLoaded()){
+            show_ads.setEnabled(false);
+            show_ads.setBackgroundColor(ContextCompat.getColor(this, R.color.LightGray));
+            TextView no_ads = (TextView)dialogView.findViewById(R.id.text_no_ad);
+            no_ads.setVisibility(View.VISIBLE);
+        }
+        show_ads.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                request_originated_from = "support";
+                show_rewarded_ads();
+
+            }
+        });
+
+        AlertDialog b = builder.create();
+        b.show();
+    }
+
+    public void introScreen(){
+        //show the welcome dialog screen to user...
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.intro_dialog, null);
+        builder.setView(dialogView);
+
+        builder.setCancelable(true);
+        final AlertDialog intro = builder.create();
+        intro.show();
+        //okay to dismiss...
+        Button okay = (Button) dialogView.findViewById(R.id.button_okay);
+        okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intro.dismiss();
+            }
+        });
+
+    }
+    ///////////////////////////////////////////////////////////////
+    // in-app purchase functions...
+    ///////////////////////////////////////////////////////////////
+    public void getPriceList() {
+        List<String> purchaseItemList = new ArrayList<>();
+        purchaseItemList.add(support_20);
+        purchaseItemList.add(support_50);
+        purchaseItemList.add(support_100);
+        purchaseItemList.add(support_200);
+
+        IabHelper.QueryInventoryFinishedListener mQueryFinishedListener = new IabHelper.QueryInventoryFinishedListener() {
+            public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
+                if (result.isFailure()) {
+                    // handle error
+                    return;
+                } else {
+                    support_20_price = inventory.getSkuDetails(support_20).getPrice();
+                    support_50_price = inventory.getSkuDetails(support_50).getPrice();
+                    support_100_price = inventory.getSkuDetails(support_100).getPrice();
+                    support_200_price = inventory.getSkuDetails(support_200).getPrice();
+
+                    // update the UI
+                    text_support_20.setText("20 Support \n" + support_20_price);
+                    text_support_50.setText("50 Support \n" + support_50_price);
+                    text_support_100.setText("100 Support \n" + support_100_price);
+                    text_support_200.setText("200 Support \n" + support_200_price);
+                }
+            }
+        };
+
+        try {
+            mHelper.queryInventoryAsync(true, purchaseItemList, null, mQueryFinishedListener);
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void onClick_support_20(View view) {
+        if (is_in_app_purchase_available) {
+            try {
+                mHelper.launchPurchaseFlow(this, support_20, 777, mPurchaseFinishedListener, "");
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public void onClick_support_50(View view) {
+        if (is_in_app_purchase_available) {
+            try {
+                mHelper.launchPurchaseFlow(this, support_50, 777, mPurchaseFinishedListener, "");
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public void onClick_support_100(View view) {
+        if (is_in_app_purchase_available) {
+            try {
+                mHelper.launchPurchaseFlow(this, support_100, 777, mPurchaseFinishedListener, "");
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public void onClick_support_200(View view) {
+        if (is_in_app_purchase_available) {
+            try {
+                mHelper.launchPurchaseFlow(this, support_200, 777, mPurchaseFinishedListener, "");
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 

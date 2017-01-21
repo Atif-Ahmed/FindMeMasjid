@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:layout_margin="10dp"
+              android:background="@drawable/background_repeat"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/intro_heading"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_margin="10dp"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        tools:text="@string/intro_title"/>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="false"
+        android:background="@drawable/logo"
+        android:contentDescription="@string/support_icon_img_desc"
+        android:cropToPadding="false"/>
+
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_margin="10dp"
+        android:text="@string/intro_line_1"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textStyle="normal|italic"/>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_margin="20dp"
+        android:background="@color/GreenTransparent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/intro_desc_2"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_location_heading"
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"
+                android:textColor="@color/VeryLightGreen"/>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="false"
+                android:background="@android:drawable/ic_menu_mylocation"
+                android:contentDescription="@string/support_icon_img_desc"
+                android:cropToPadding="false"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/gps_search_desc"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/search_address_heading"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"
+                android:textColor="@color/VeryLightGreen"/>
+
+
+            <EditText
+                android:id="@+id/EditText_Search"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:background="@color/White"
+                android:drawableEnd="@drawable/places_ic_search"
+                android:drawableRight="@drawable/places_ic_search"
+                android:ems="10"
+                android:enabled="false"
+                android:hint="@string/map_search_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:paddingEnd="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingStart="10dp"
+                android:textColor="@color/DarkerGreen"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/search_address_desc"
+                android:textAlignment="center"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/search_tap_heading"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"
+                android:textColor="@color/VeryLightGreen"/>
+
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:adjustViewBounds="false"
+                android:background="@drawable/tap_icon"
+                android:contentDescription="@string/support_icon_img_desc"
+                android:cropToPadding="false"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/search_tap_desc"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/search_drag_heading"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"
+                android:textColor="@color/VeryLightGreen"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:adjustViewBounds="false"
+                android:background="@drawable/drag_icon"
+                android:contentDescription="@string/support_icon_img_desc"
+                android:cropToPadding="false"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/searc_drag_desc"
+                android:textAlignment="center"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_okay"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button"
+        android:text="@string/okay"/>
+
+
+</LinearLayout>

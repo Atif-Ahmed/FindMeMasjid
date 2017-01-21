@@ -3,7 +3,7 @@
         AIzaSyAfavqhx7R19jluiyYPpQ5VujUD6PbeBog
     </string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="video_ad_unit_id">ca-app-pub-4952820368276019/8873723682</string><!-- this is original -->
+    <string name="video_ad_unit_id" translatable="false">ca-app-pub-4952820368276019/8873723682</string><!-- this is original -->
 
 </resources>
 

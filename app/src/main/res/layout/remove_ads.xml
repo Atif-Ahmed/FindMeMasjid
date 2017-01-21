@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="@drawable/background_repeat"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
               android:layout_margin="25dp"
+              android:background="@drawable/background_repeat"
               android:orientation="vertical">
 
     <TextView
@@ -12,76 +12,85 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
         android:text="@string/ads_free_title"
-        android:textColor="@android:color/white"
         android:textAlignment="center"
-        android:textSize="24sp"
-        android:layout_marginBottom="20dp"/>
+        android:textColor="@android:color/white"
+        android:textSize="24sp"/>
 
     <ImageView
         android:layout_width="200dp"
         android:layout_height="136dp"
-        android:background="@drawable/ads_free_support_icon"
         android:layout_gravity="center_horizontal"
-        android:contentDescription="@string/suppor_icon_img_desc"
+        android:background="@drawable/ads_free_support_icon"
+        android:contentDescription="@string/support_icon_img_desc"
         />
 
     <TextView
+        android:id="@+id/text_support_pts_rem_ads"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/text_support_pts_rem_ads"
-        android:textAlignment="center"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
-        android:textSize="36sp"
-        android:layout_marginBottom="20dp"/>
+        android:textAlignment="center"
+        android:textSize="36sp"/>
 
     <TextView
-        android:text="@string/earn_points_explain"
+        android:text="@string/support_us_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView8"
+        android:id="@+id/textView9"
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textStyle="normal|italic"/>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"/>
+        android:text="@string/earn_points_explain"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textStyle="normal|italic"/>
 
     <Button
+        android:id="@+id/button_show_rewarded_ads"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:id="@+id/button_show_rewarded_ads"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button"
         android:text="@string/watch_ads"/>
 
     <TextView
-        android:text="@string/no_ads_text"
+        android:id="@+id/text_no_ad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text_no_ad"
+        android:text="@string/no_ads_text"
         android:textAlignment="center"
         android:visibility="gone"/>
 
     <TextView
-        android:text="@string/text_goto_supportme"
+        android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView5"
+        android:text="@string/text_goto_support_me"
         android:textAlignment="center"
-        android:textSize="18sp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"/>
+        android:textSize="14sp"
+        android:textStyle="normal|italic"
+        android:layout_margin="10dp"/>
 
     <Button
-        android:text="@string/button_support_page"
-        android:layout_gravity="center_horizontal"
+        android:id="@+id/button_goto_support"
         android:layout_width="200dp"
         android:layout_height="40dp"
-        android:id="@+id/button_goto_support"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button"
-        android:textAlignment="center"
-        android:layout_marginBottom="10dp"/>
+        android:text="@string/button_support_page"
+        android:textAlignment="center"/>
 
 
 </LinearLayout>

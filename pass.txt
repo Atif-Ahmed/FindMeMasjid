@@ -1,2 +1,5 @@
 FindMeMasjidStoreKey
 FindMeMasjidKey
+
+find.me.masjid@gmail.com	
+com.genutek.findmemasjid

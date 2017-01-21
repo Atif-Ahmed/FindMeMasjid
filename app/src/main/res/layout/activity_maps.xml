@@ -8,17 +8,17 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     tools:context="com.apps.genutek.find_me_masjid.MapsActivity"
-    android:background="@drawable/background_repeat">
+    android:background="@drawable/background_repeat"
+    android:focusableInTouchMode="true">
 
     <fragment
         android:layout_width="match_parent"
         android:id = "@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_height="match_parent"
-        />
+        android:layout_above="@+id/layout_ads"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,23 +40,25 @@
             android:hint="@string/map_search_hint"
             android:textColor="@color/DarkerGreen"
             android:textSize="14sp"
-            android:paddingLeft="10dp"
             android:imeOptions="actionSearch"
             android:drawableRight="@drawable/places_ic_search"
             android:drawableEnd="@drawable/places_ic_search"
             android:layout_height="30dp"
             android:layout_width="wrap_content"
             android:paddingRight="10dp"
-            android:paddingEnd="10dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_toLeftOf="@+id/Button_MapSearch"
             android:layout_toStartOf="@+id/Button_MapSearch"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingLeft="10dp"
+            tools:ignore="RtlHardcoded"
+            android:layout_marginEnd="0dp"
+            android:layout_marginLeft="0dp"/>
 
         <Button
             android:layout_width="30dp"
@@ -66,10 +68,10 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginStart="15dp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"/>
 
         <View android:id="@+id/strut"
               android:layout_width="1dp"
@@ -90,8 +92,15 @@
             android:layout_alignTop="@+id/button_drop_down"
             android:layout_toLeftOf="@+id/strut"
             android:layout_toStartOf="@+id/strut"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="12sp"
+            android:textAllCaps="false"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            />
 
     </RelativeLayout>
 
@@ -101,8 +110,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="30dp"
-        android:id="@+id/r_layout_ad">
+        android:id="@+id/layout_ads">
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
             android:layout_width="wrap_content"

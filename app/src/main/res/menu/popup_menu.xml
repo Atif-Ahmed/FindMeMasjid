@@ -24,6 +24,11 @@
         android:visible="true"/>
 
     <item
+        android:id="@+id/how_to_use"
+        android:title="How to use"
+        android:visible="true"/>
+
+    <item
         android:id="@+id/item_about"
         android:title="@string/about"
         android:visible="true"/>
