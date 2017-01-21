@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">مسجد کی تلاش</string>
+    <string name="Find_masjid_near_me">قریب کی مسجد تلاش کریں</string>
+    <string name="Login">لاگ ان</string>
+    <string name="about">ہمارے متعلق</string>
+    <string name="watch_ads">اشتھارات دیکھیں</string>
+    <string name="yes">جی ہاں</string>
+    <string name="tutorial_image">ٹیوٹوریل</string>
+    <string name="title_activity_maps">نقشہ</string>
+    <string name="thanks_for_purchase">آپ کے ساتھ دینے کا بہت شکریہ</string>
+    <string name="thank_you">شکریہ</string>
+    <string name="text_goto_support_me">ہماراساتھ دینے کے مزید طریقے جاننے کے لئے اس بٹن پر کلک کریں</string>
+    <string name="support_us_description">ہمارا ساتھ دینے کے لیے زیادہ سے زیادہ حمایتی پوائنٹس حاصل کریں</string>
+    <string name="support_me">ہمارا ساتھ دیں</string>
+    <string name="support_icon_img_desc">آئکن freepik طرف سے ہے</string>
+    <string name="signup_text">اکاؤنٹ نہیں ہے؟  ابھی سائن اپ کریں</string>
+    <string name="signup">سائن اپ</string>
+    <string name="share_popup_title">ایک کا انتخاب کریں</string>
+    <string name="share">اپنے دوستوں کو بتائیں</string>
+    <string name="search_tap_heading">ٹیپ سے تلاش کریں</string>
+    <string name="search_tap_desc">کسی بھی مقام کے گرد مسجد کو تلاش کرنے کے نقشے پر کہیں بھی ٹیپ کریں.</string>
+    <string name="search_location_heading">اپنے محل وقوع کی لحاظ سی تلاش کریں</string>
+    <string name="search_drag_heading">مارکر کے استمال سے تلاش کریں</string>
+    <string name="search_address_heading">جگہ کے نام سے تلاش کریں</string>
+    <string name="search_address_desc">دنیا بھر میں کسی بھی جگا مسجد تلاش کرنے کی لیے تلاش کے خانے میں ایڈریس فراہم کریں</string>
+    <string name="search">تلاش</string>
+    <string name="searc_drag_desc">کسی بھی  مقام کے گرد مسجد کو تلاش کرنے کے لیے نقشے پر مارکر کو گھسیٹ کر اس جگہ پر رکھ دیں</string>
+    <string name="requested_location">مقام</string>
+    <string name="remove_ads">اشتہارات ہٹائیں</string>
+    <string name="password">پاس ورڈ</string>
+    <string name="okay">ٹھیک ہے</string>
+    <string name="no_internet_connection">انٹرنیٹ کنکشن موجود نہیں .انٹرنیٹ کنکشن مسجد تلاش کرنے کے لئے ضروری ہے</string>
+    <string name="no_ads_text">ابھی کوئی اشتہار موجود نہیں . براہ مہربانی دوبارہ کوشش کریں</string>
+    <string name="no">جی نہیں</string>
+    <string name="name">نام</string>
+    <string name="map_search_hint">ایڈریس کے لحاظ سی تلاش کریں</string>
+    <string name="location_found_error">مقام کو تلاش کرنے میں مسئلہ ہو رہا ہے. براے مہربانی اس بات کا یقین کر لیں  کے مقام درست ہے اپنے مقام کی مزید تفصیلات فراہم کریں. جیسے آل امام بیت، دمشق</string>
+    <string name="intro_title">ڈاؤن لوڈ کرنے کے لئے آپ کا شکریہ</string>
+    <string name="intro_line_1">اس سافٹ ویئر کو استعمال کرنے کی ایک فوری گائیڈ۔ اس سافٹ ویئر کے زرئیے آپ مسجد کئی طریقوں سے ڈھونڈ سکتے ہیں</string>
+    <string name="intro_desc_2">اس سافٹ ویئر کے زرئیے آپ مسجد کئی طریقوں سے ڈھونڈ سکتے ہیں</string>
+    <string name="infoWindow_navigate">اس مسجد میں پہنچنے کا راستہ دیکھنے کے لئے یہاں کلک کریں</string>
+    <string name="gps_search_desc">آپ ٹول بار میں GPS کا آئکن پر کلک کر کے اپنے محل وقوع کے قریب مسجد تلاش کر سکتے ہیں - GPS کی ضرورت ہوتی ہے</string>
+    <string name="forgot_your_password">اپنا  پاس ورڈ بھول گئے ؟</string>
+    <string name="fetching_coordinates">جی-پی-ایس  سے آپ کا مقام تلاش کیا جا رہا ہے</string>
+    <string name="feedback">آپ کی رائے</string>
+    <string name="enable_gps_message">آپ کا GPS ابھی بند ہے.کیا آپ اسے کھولنا چاہتے ہیں؟</string>
+    <string name="email">ای میل</string>
+    <string name="earn_points_explain">اشتھارات کو دیکھئیے اور 1 امدادی پوائنٹ حاصل کیجیئے</string>
+    <string name="country">ملک</string>
+    <string name="button_text_50_support">١٠٠ سپورٹ پوائنٹ</string>
+    <string name="button_text_25_support">٥٠ سپورٹ پوائنٹ</string>
+    <string name="button_text_10_support">٢٠ سپورٹ پوائنٹ</string>
+    <string name="button_text_100_support">٢٠٠ سپورٹ پوائنٹ</string>
+    <string name="button_support_page">صفحہ امدادی پر جائیں</string>
+    <string name="app_short_desc">اپنے ارد گرد یا دنیا بھر میں کہیں بھی مسجد کو تلاش کرنے کے لئے اس سافٹ ویئر کو استعمال کریں</string>
+    <string name="feedback_message">آپ کے تبصرے اور تجاویز ہمارے لئے بھت قیمتی ہیں. لہذا برائے مہربانی، نیچے دیئے گئے ای میل پر ہمیں اپنے قیمتی تبصرے، تجاویز یا رائے سے آگاہ کرئیں ..                   find.me.masjid@gmail.com</string>
+    <string name="ads_free_title">امدادی پوائنٹس حاصل کریں</string>
+    <string name="about_us_message">   ہمارے متعلق:
+                       ہم ایک نوجوان اور پرجوش ڈویلپرز کا گروپ ہیں. Genutek میں ہم موبائل اور کمپیوٹر کے لئے، اچھی تخلیقی اور موثر سافٹ ویئر تخلیق کرنے کا ارادہ رکھتے  ہیں. Genutek صرف $200 سرمایہ کاری کے ساتھ 1st جنوری 2017 کو قائم کی گئی۔
+   اور \"مسجد کی تلاش \"، ہمارا پہلا لائیو سافٹ ویئر  ہے.
+                 ہم اس  سافٹ ویئر میں مزید خصوصیات شامل کرنے اور مستقبل قریب میں مزید سافٹ ویئر بنانے کی پوری کوشش کر رہے ہیں.
+                 ہمیں آگے بڑھنے کے لئیے آپ کی حوصلہ افزائی اور مدد کی ضرورت ہے
+                 براہ مہربانی اپنی دعاؤں میں ہمیں یاد رکھیں. جزا اللہ خیر.
+                        ہمیں اپنے قیمتی تبصرے، تجاویز یا رائے سے اگاہ کریں ..
+                find.me.masjid@gmail.com</string>
+</resources>

@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Find Me Masjid</string>
     <string name="app_short_desc">\n Try out this application to find Masjid around you or anywhere around the world. \n </string>
-    <string name="app_url">https://play.google.com/store/apps/details?id=com.apps.genutek.find_me_masjid</string>
+    <string name="app_url" translatable="false">https://play.google.com/store/apps/details?id=com.apps.genutek.find_me_masjid</string>
     <string name="Login">Login</string>
     <string name="okay">Okay</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="logo_image_desc">App Logo inspired by Freepik</string>
+    <string name="logo_image_desc" translatable="false">App Logo inspired by Freepik</string>
     <string name="signup_text">Don\'t have an account yet? Signup</string>
     <string name="share_popup_title">choose one</string>
     <string name="title_activity_maps">Map</string>
@@ -16,7 +16,7 @@
     <string name="country">Country</string>
     <string name="map_search_hint">Find by address</string>
     <string name="search">Search</string>
-    <string name="marker_icon_desc">Icon for marker info</string>
+    <string name="marker_icon_desc" translatable="false">Icon for marker info</string>
     <string name="infoWindow_navigate">Click here to navigate to this masjid</string>
     <string name="about">About Us</string>
     <string name="feedback">Feedback</string>
@@ -25,7 +25,7 @@
     <string name="support_me">Support Us</string>
     <string name="thank_you">Thank you</string>
     <string name="tutorial_image">tutorial</string>
-    <string name="app_ads_id">ca-app-pub-4952820368276019~2433897285</string>
+    <string name="app_ads_id" translatable="false">ca-app-pub-4952820368276019~2433897285</string>
     <string name="fetching_coordinates">Getting Location from GPS</string>
     <string name="enable_gps_message">Your GPS is disabled, do you want to enable your GPS ?</string>
     <string name="yes">yes</string>
@@ -54,34 +54,16 @@
         \n
     </string>
 
-    <string name="intro_message">
-        Thank you for downloading Find Me Masjid.\n
-        \n
-        \n
-        How to use "Find Me Masjid"
-        \n
-        \n
-        \n 1. You can find masjid near your location, by tapping GPS icon on the top bar.
-        \n
-        \n 2. You can search for masjid at any location around the world, using search box. For better result provide precise location.
-        \n for example
-        \n Umayyain Square, Damascus
-        \n White Chapel, London
-        \n
-        \n 3. More information can be found by tapping icon on upper right corner.
-        \n
-    </string>
-
     <string name="location_found_error">
         Problem occurred while finding location. Make sure location is correct.\n
         Provide more details of your location. e.g. Aal Al Bait, Damascus
     </string>
-    <string name="genutek_logo_image_desc">genutek logo image</string>
+    <string name="genutek_logo_image_desc" translatable="false">genutek logo image</string>
     <string name="ads_free_title">Earn support points </string>
     <string name="support_icon_img_desc">supports points icon by freepik</string>
     <string name="button_support_page">Go to support page</string>
     <string name="earn_points_explain">watch ads and get 1 support point</string>
-    <string name="play_button_desc">play_button_desc</string>
+    <string name="play_button_desc" translatable="false">play_button_desc</string>
     <string name="button_text_10_support">20 Support \n $1.00</string>
     <string name="button_text_25_support">50 Support \n $2.50</string>
     <string name="button_text_100_support">200 Support \n $10.00</string>
