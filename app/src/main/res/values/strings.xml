@@ -60,7 +60,7 @@
     </string>
     <string name="genutek_logo_image_desc" translatable="false">genutek logo image</string>
     <string name="ads_free_title">Earn support points </string>
-    <string name="support_icon_img_desc">supports points icon by freepik</string>
+    <string name="support_icon_img_desc" translatable="false">supports points icon by freepik</string>
     <string name="button_support_page">Go to support page</string>
     <string name="earn_points_explain">watch ads and get 1 support point</string>
     <string name="play_button_desc" translatable="false">play_button_desc</string>
