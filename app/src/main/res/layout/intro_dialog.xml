@@ -49,22 +49,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/intro_desc_2"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/search_location_heading"
                 android:layout_margin="10dp"
+                android:text="@string/search_location_heading"
+                android:textColor="@color/VeryLightGreen"
                 android:textSize="18sp"
-                android:textStyle="normal|bold"
-                android:textColor="@color/VeryLightGreen"/>
+                android:textStyle="normal|bold" />
 
             <ImageView
                 android:layout_width="40dp"
@@ -73,7 +74,7 @@
                 android:adjustViewBounds="false"
                 android:background="@android:drawable/ic_menu_mylocation"
                 android:contentDescription="@string/support_icon_img_desc"
-                android:cropToPadding="false"/>
+                android:cropToPadding="false" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -81,7 +82,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/gps_search_desc"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -89,16 +90,16 @@
                 android:text=""
                 android:textAlignment="center"
                 android:textSize="18sp"
-                android:textStyle="normal|bold"/>
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="@string/search_address_heading"
+                android:textColor="@color/VeryLightGreen"
                 android:textSize="18sp"
-                android:textStyle="normal|bold"
-                android:textColor="@color/VeryLightGreen"/>
+                android:textStyle="normal|bold" />
 
 
             <EditText
@@ -120,7 +121,7 @@
                 android:paddingRight="10dp"
                 android:paddingStart="10dp"
                 android:textColor="@color/DarkerGreen"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -128,7 +129,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/search_address_desc"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
 
             <TextView
@@ -137,16 +138,16 @@
                 android:text=""
                 android:textAlignment="center"
                 android:textSize="18sp"
-                android:textStyle="normal|bold"/>
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="@string/search_tap_heading"
+                android:textColor="@color/VeryLightGreen"
                 android:textSize="18sp"
-                android:textStyle="normal|bold"
-                android:textColor="@color/VeryLightGreen"/>
+                android:textStyle="normal|bold" />
 
             <ImageView
                 android:layout_width="38dp"
@@ -156,7 +157,7 @@
                 android:adjustViewBounds="false"
                 android:background="@drawable/tap_icon"
                 android:contentDescription="@string/support_icon_img_desc"
-                android:cropToPadding="false"/>
+                android:cropToPadding="false" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -164,7 +165,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/search_tap_desc"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -172,16 +173,16 @@
                 android:text=""
                 android:textAlignment="center"
                 android:textSize="18sp"
-                android:textStyle="normal|bold"/>
+                android:textStyle="normal|bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="@string/search_drag_heading"
+                android:textColor="@color/VeryLightGreen"
                 android:textSize="18sp"
-                android:textStyle="normal|bold"
-                android:textColor="@color/VeryLightGreen"/>
+                android:textStyle="normal|bold" />
 
             <ImageView
                 android:layout_width="30dp"
@@ -191,7 +192,7 @@
                 android:adjustViewBounds="false"
                 android:background="@drawable/drag_icon"
                 android:contentDescription="@string/support_icon_img_desc"
-                android:cropToPadding="false"/>
+                android:cropToPadding="false" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -199,7 +200,34 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/searc_drag_desc"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/search_add_masjid_heading"
+                android:textColor="@color/VeryLightGreen"
+                android:textSize="18sp"
+                android:textStyle="normal|bold" />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:adjustViewBounds="false"
+                android:background="@drawable/add_masjid"
+                android:contentDescription="@string/support_icon_img_desc"
+                android:cropToPadding="false" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@string/search_add_masjid_desc"
+                android:textAlignment="center" />
 
 
         </LinearLayout>

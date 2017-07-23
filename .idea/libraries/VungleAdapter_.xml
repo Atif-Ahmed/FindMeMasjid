@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="VungleAdapter-">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/VungleAdapter/res" />
-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/VungleAdapter/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/c13667d3972b94234a6e67f877cc4c103214232e/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/c13667d3972b94234a6e67f877cc4c103214232e/output/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

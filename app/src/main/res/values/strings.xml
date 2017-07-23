@@ -42,7 +42,7 @@
         \n
         \n
         \n Please share your valuable comments, suggestions or feedback at..
-        \n find.me.masjid@gmail.com
+        \n atifahmed0276@gmail.com
     </string>
 
     <string name="feedback_message">
@@ -50,7 +50,7 @@
         So, please share your valuable comments, suggestions or feedback at..
         \n
         \n
-        find.me.masjid@gmail.com
+        atifahmed0276@gmail.com
         \n
     </string>
 
@@ -64,10 +64,10 @@
     <string name="button_support_page">Go to support page</string>
     <string name="earn_points_explain">watch ads and get 1 support point</string>
     <string name="play_button_desc" translatable="false">play_button_desc</string>
-    <string name="button_text_10_support">20 Support \n $1.00</string>
-    <string name="button_text_25_support">50 Support \n $2.50</string>
-    <string name="button_text_100_support">200 Support \n $10.00</string>
-    <string name="button_text_50_support">100 Support \n $5.00</string>
+    <string name="button_text_10_support">20 Support</string>
+    <string name="button_text_25_support">50 Support</string>
+    <string name="button_text_100_support">200 Support</string>
+    <string name="button_text_50_support">100 Support</string>
     <string name="text_goto_support_me">visit support page for more ways to contribute</string>
     <string name="watch_ads">Watch Ads</string>
     <string name="no_internet_connection">No Internet connection found. Active internet connection is required to find location.</string>
@@ -86,4 +86,19 @@
     <string name="search_tap_desc">Tap and hold anywhere on the map to find masjid around that location.</string>
     <string name="searc_drag_desc">You can hold and drag the location marker any where on the map to find masjid around that location.</string>
     <string name="search_address_desc">You can search masjid any where around the globe by providing the address in the search box.</string>
+    <string name="how_to_use">How to Use</string>
+    <string name="add_masjid">Add Masjid</string>
+    <string name="desc_img_add_masjid" translatable="false">image for Add Masjid Button</string>
+    <string name="no_masjid_found">No Masjid found near your location.</string>
+    <string name="search_add_masjid_heading">5. Add A New Masjid</string>
+    <string name="search_add_masjid_desc">If you cannot find a masjid on map, you can add the masjid by clicking on add masjid button on the bottom right corner of the map.</string>
+    <string name="add_masjid_address">Address</string>
+    <string name="add_masjid_complete_address_of_masjid">Complete Address of Masjid</string>
+    <string name="add_masjid_full_name_of_masjid">Full Name of Masjid</string>
+    <string name="add_masjid_name_of_masjid">Name of Masjid</string>
+    <string name="add_masjid_telephone_no_of_masjid">Telephone at Masjid (if any)</string>
+    <string name="add_masjid_telephone_number">Telephone Number</string>
+    <string name="add_masjid_lng_lat">Drag and place the blue marker at the exact location of masjid on the map. Zoom the map if needed. Press [Submit Button] to Add Masjid.</string>
+    <string name="cancel">Cancel</string>
+    <string name="submit">Submit</string>
 </resources>

@@ -25,7 +25,7 @@
 
     <item
         android:id="@+id/how_to_use"
-        android:title="How to use"
+        android:title="@string/how_to_use"
         android:visible="true"/>
 
     <item

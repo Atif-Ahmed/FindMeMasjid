@@ -105,62 +105,98 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_ads"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/layout_ads">
+        android:layout_alignParentStart="true">
+
         <com.google.android.gms.ads.AdView
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            ads:adSize="LARGE_BANNER"
-            ads:adUnitId="@string/banner_ad_unit_id"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-        </com.google.android.gms.ads.AdView>
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/relative_layout_zoom"
         android:layout_width="30dp"
         android:layout_height="70dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/relative_layout_zoom"
-        android:layout_marginLeft="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginStart="25dp"
         android:layout_below="@+id/r_layout_main"
-        android:layout_marginTop="15dp">
+        android:layout_alignRight="@+id/r_layout_main"
+        android:layout_alignEnd="@+id/r_layout_main">
 
         <Button
+            android:id="@+id/button_zoom_in"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/button_zoom_in"
-            android:background="@drawable/zoom_in"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:onClick="onClick_zoom_in"
-            android:alpha="0.8"/>
+            android:layout_alignParentTop="true"
+            android:alpha="0.8"
+            android:background="@drawable/zoom_in"
+            android:onClick="onClick_zoom_in" />
 
         <Button
+            android:id="@+id/button_zoom_out"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/button_zoom_out"
-            android:background="@drawable/zoom_out"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:onClick="onClick_zoom_out"
-            android:alpha="0.8"/>
+            android:alpha="0.8"
+            android:background="@drawable/zoom_out"
+            android:onClick="onClick_zoom_out" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_add_masjid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_ads"
+        android:layout_alignEnd="@+id/r_layout_main"
+        android:layout_alignRight="@+id/r_layout_main"
+        android:layout_marginBottom="19dp">
+
+        <Button
+            android:id="@+id/btn_add_masjid"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/add_masjid" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_add_masjid_submit"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/map"
+        android:layout_alignParentBottom="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="70dp"
+        android:background="@drawable/button"
+        android:text="@string/submit"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_add_masjid_cancel"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/map"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
+        android:text="@string/cancel"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

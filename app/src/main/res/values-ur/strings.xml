@@ -53,7 +53,7 @@
     <string name="button_text_100_support">٢٠٠ سپورٹ پوائنٹ</string>
     <string name="button_support_page">صفحہ امدادی پر جائیں</string>
     <string name="app_short_desc">اپنے ارد گرد یا دنیا بھر میں کہیں بھی مسجد کو تلاش کرنے کے لئے اس سافٹ ویئر کو استعمال کریں</string>
-    <string name="feedback_message">آپ کے تبصرے اور تجاویز ہمارے لئے بھت قیمتی ہیں. لہذا برائے مہربانی، نیچے دیئے گئے ای میل پر ہمیں اپنے قیمتی تبصرے، تجاویز یا رائے سے آگاہ کرئیں ..                   find.me.masjid@gmail.com</string>
+    <string name="feedback_message">آپ کے تبصرے اور تجاویز ہمارے لئے بھت قیمتی ہیں. لہذا برائے مہربانی، نیچے دیئے گئے ای میل پر ہمیں اپنے قیمتی تبصرے، تجاویز یا رائے سے آگاہ کرئیں ..                   atifahmed0276@gmail.com</string>
     <string name="ads_free_title">امدادی پوائنٹس حاصل کریں</string>
     <string name="about_us_message">   ہمارے متعلق:
                        ہم ایک نوجوان اور پرجوش ڈویلپرز کا گروپ ہیں. Genutek میں ہم موبائل اور کمپیوٹر کے لئے، اچھی تخلیقی اور موثر سافٹ ویئر تخلیق کرنے کا ارادہ رکھتے  ہیں. Genutek صرف $200 سرمایہ کاری کے ساتھ 1st جنوری 2017 کو قائم کی گئی۔
@@ -62,5 +62,19 @@
                  ہمیں آگے بڑھنے کے لئیے آپ کی حوصلہ افزائی اور مدد کی ضرورت ہے
                  براہ مہربانی اپنی دعاؤں میں ہمیں یاد رکھیں. جزا اللہ خیر.
                         ہمیں اپنے قیمتی تبصرے، تجاویز یا رائے سے اگاہ کریں ..
-                find.me.masjid@gmail.com</string>
+                atifahmed0276@gmail.com</string>
+    <string name="how_to_use">طریقہ استعمال</string>
+    <string name="add_masjid">نئی مسجد</string>
+    <string name="no_masjid_found">آپ کے مقام کے قریب کوئی مسجد نہیں</string>
+    <string name="search_add_masjid_heading">5. ایک نئی مسجد کا اضافہ کریں</string>
+    <string name="search_add_masjid_desc">اگر آپ کو نقشہ پرمسجد نہیں نظرآرہی، تو آپ  نچلے دائیں کونے پر موجود بٹن دبا کر نئ مسجد شامل کر سکتے ہیں</string>
+    <string name="add_masjid_address">مسجد کا پتہ</string>
+    <string name="add_masjid_complete_address_of_masjid">مسجد کا مکمل پتہ</string>
+    <string name="add_masjid_full_name_of_masjid">مسجد کا مکمل نام</string>
+    <string name="add_masjid_name_of_masjid">مسجد کا  نام</string>
+    <string name="add_masjid_telephone_no_of_masjid">مسجد میں ٹیلیفون (اگر ہے)</string>
+    <string name="add_masjid_telephone_number">ٹیلی فون نمبر</string>
+    <string name="add_masjid_lng_lat">نقشے پر مسجد کے صحیح مقام پر نیلے مارکر کو کھینچ کر رکھیں. اگر ضرورت ہو تو نقشہ زوم کریں.نئی مسجید کو شامل کرنے کیلئے [جمع کرائیں] کا بٹن دبائیں.</string>
+    <string name="cancel">منسوخ کریں</string>
+    <string name="submit">جمع کرائیں</string>
 </resources>

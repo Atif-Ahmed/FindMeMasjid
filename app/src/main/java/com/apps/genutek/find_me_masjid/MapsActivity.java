@@ -20,6 +20,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -36,6 +38,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -49,12 +52,20 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.places.AddPlaceRequest;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -70,16 +81,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static com.apps.genutek.find_me_masjid.R.id.adView;
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
+    private GoogleApiClient mGoogleApiClient;
 
     private double latitude = 33.6;
     private double longitude = 73.1;
@@ -108,9 +124,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     static final String support_200 = "support_200";
     Inventory inventory;
 
+    static final double default_zoom = 13.75;
+    static int search_radius = 3500;
+    static int connection_timeout = 10000;
+    static int current_search_radius = search_radius;
+
+    // add new masjid variables
+    static String newMasjidName;
+    static String newMasjidAddress;
+    static String newMasjidTelephone;
+    static LatLng newMasjidLatLng;
+    static Boolean addingNewMasjid = false;
+    static Float newMasjidZoom = 19.0f;
+
+
     //in-app purchase related variables
     IabHelper mHelper;
     Boolean is_in_app_purchase_available = false;
+
+    // check from where the request is coming from... remove ads page or support me page.
+    String request_originated_from;
+    private long timeout = 0;
 
     //in-app purchase related listeners
     private IabHelper.QueryInventoryFinishedListener mGotInventoryListener =
@@ -192,10 +226,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-    // check from where the request is coming from... remove ads page or support me page.
-    String request_originated_from;
 
-    private long timeout = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,8 +236,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this,this)
+                .build();
+
+
         //show intro_dialog
         AppExecutionCounter();
+
+        // create click listener to add new Masjid Button
+        findViewById(R.id.btn_add_masjid).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addNewMasjid();
+            }
+        });
+
+        //create click listener to cancel new masjid button
+        findViewById(R.id.btn_add_masjid_cancel).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                cancelAddNewMasjid();
+            }
+        });
+
+        //create click listener to submit new masjid button
+        findViewById(R.id.btn_add_masjid_submit).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                submitAddNewMasjid();
+            }
+        });
 
         // create action listener for text
         final EditText editText = (EditText) findViewById(R.id.EditText_Search);
@@ -349,9 +412,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mAdView.loadAd(adRequest);
         getEarnedSupportPoints();
 
-
-
-
     }
 
     @Override
@@ -378,6 +438,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mHelper = null;
     }
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+
+
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
@@ -395,7 +472,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     marker.showInfoWindow();
                     marker_Latitude = marker.getPosition().latitude;
                     marker_Longitude = marker.getPosition().longitude;
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(marker_Latitude, marker_Longitude), 14));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(marker_Latitude, marker_Longitude), (float)default_zoom));
                 }
                 return true;
             }
@@ -409,11 +486,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
-                latitude = latLng.latitude;
-                longitude = latLng.longitude;
-                updateMap();
-                PlacesTask placesTask = new PlacesTask();
-                placesTask.execute(sbMethod());
+                if(addingNewMasjid) {
+                    newMasjidLatLng = latLng;
+                    updateAddNewMasjidMap();
+                }else{
+                    latitude = latLng.latitude;
+                    longitude = latLng.longitude;
+                    updateMap();
+                    if (isNetworkAvailable()) {
+                        PlacesTask placesTask = new PlacesTask();
+                        try {
+                            placesTask.execute(sbMethod(search_radius)).get(connection_timeout, TimeUnit.MILLISECONDS);
+                        } catch (Exception e) {
+                        }
+                    } else {
+                        showDialog(getResources().getString(R.string.no_internet_connection));
+                    }
+                }
             }
         });
 
@@ -430,12 +519,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public void onMarkerDragEnd(Marker marker) {
-                LatLng latLng =  marker.getPosition();
-                latitude = latLng.latitude;
-                longitude = latLng.longitude;
-                updateMap();
-                PlacesTask placesTask = new PlacesTask();
-                placesTask.execute(sbMethod());
+                if(addingNewMasjid){
+                    LatLng latLng = marker.getPosition();
+                    newMasjidLatLng = latLng;
+                    updateAddNewMasjidMap();
+                }else {
+                    LatLng latLng = marker.getPosition();
+                    latitude = latLng.latitude;
+                    longitude = latLng.longitude;
+                    updateMap();
+                    if (isNetworkAvailable()) {
+                        PlacesTask placesTask = new PlacesTask();
+                        try {
+                            placesTask.execute(sbMethod(search_radius)).get(connection_timeout, TimeUnit.MILLISECONDS);
+                        } catch (Exception e) {
+                        }
+                    } else {
+                        showDialog(getResources().getString(R.string.no_internet_connection));
+                    }
+                }
             }
         });
 
@@ -451,7 +553,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getLongLat(country, false);
     }
 
-    public void getLongLat(String location, Boolean isLocation) {
+    public boolean getLongLat(String location, Boolean isLocation) {
         Geocoder coder = new Geocoder(this);
         List<Address> address;
         try {
@@ -460,6 +562,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Address longLat = address.get(0);
                 latitude = longLat.getLatitude();
                 longitude = longLat.getLongitude();
+                return true;
             }
         } catch (Exception e) {
             if (isLocation) {
@@ -467,6 +570,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 e.printStackTrace();
             }
         }
+        return false;
     }
 
     public void searchArea() {
@@ -479,12 +583,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             getLongLat(cityText, true);
             updateMap();
             PlacesTask placesTask = new PlacesTask();
-            placesTask.execute(sbMethod());
+            try{
+                placesTask.execute(sbMethod(search_radius)).get(connection_timeout, TimeUnit.MILLISECONDS);
+            } catch (Exception e) {}
         }
         else{
             showDialog(getResources().getString(R.string.no_internet_connection));
         }
     }
+
 
 
     @SuppressWarnings("MissingPermission")
@@ -555,8 +662,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         protected void onPostExecute(String result) {
             progress_dialog.dismiss();
             updateMap();
-            PlacesTask placesTask = new PlacesTask();
-            placesTask.execute(sbMethod());
+            if(isNetworkAvailable()) {
+                PlacesTask placesTask = new PlacesTask();
+                try {
+                    placesTask.execute(sbMethod(search_radius)).get(connection_timeout, TimeUnit.MILLISECONDS);
+                } catch (Exception e) {}
+            }
+            else{
+                showDialog(getResources().getString(R.string.no_internet_connection));
+            }
             mLocationManager.removeUpdates(locationListener);
         }
 
@@ -620,7 +734,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.clear();
         LatLng location = new LatLng(latitude, longitude);
         mMap.addMarker(new MarkerOptions().position(location).title(getResources().getString(R.string.requested_location)).draggable(true));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 14));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, (float)default_zoom));
     }
 
     public AlertDialog showDialog(String s) {
@@ -646,11 +760,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //***************************************************************************
     // CODE  FOR FINDING MASJID USING GOOGLE
     //***************************************************************************
-    public String sbMethod() {
+    public String sbMethod(int radius) {
 
         String sb = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
                 "location=" + latitude + "," + longitude +
-                "&radius=3000" +
+                "&radius=" + radius +
                 "&types=" + "mosque" +
                 "&sensor=true" +
                 "&key=AIzaSyAxvTaGa2xOp3x4pX3xHOb0VFA-iiTwbEg";
@@ -688,27 +802,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         HttpURLConnection urlConnection = null;
         try {
             URL url = new URL(strUrl);
-
             // Creating an http connection to communicate with url
             urlConnection = (HttpURLConnection) url.openConnection();
-
             // Connecting to url
             urlConnection.connect();
-
             // Reading data from url
             iStream = urlConnection.getInputStream();
-
             BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-
             StringBuffer sb = new StringBuffer();
-
             String line = "";
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
-
             data = sb.toString();
-
             br.close();
 
         } catch (Exception e) {
@@ -745,6 +851,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Executed after the complete execution of doInBackground() method
         @Override
         protected void onPostExecute(List<HashMap<String, String>> list) {
+
+            if(list.size()==0) {
+                // if no masjid found in the area increase the search area.
+                current_search_radius = current_search_radius + search_radius;
+                if(current_search_radius< 15000){ // don't search more than 15 KM radius
+                    if(isNetworkAvailable()) {
+                        PlacesTask placesTask = new PlacesTask();
+                        try {
+                            placesTask.execute(sbMethod(current_search_radius)).get(connection_timeout, TimeUnit.MILLISECONDS);
+                        } catch (Exception e) {}
+                    }
+                    else{
+                        showDialog(getResources().getString(R.string.no_internet_connection));
+                    }
+                }
+                else
+                {
+                    showDialog(getResources().getString(R.string.no_masjid_found));
+                }
+
+            }
+            LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+            boundsBuilder.include(new LatLng(latitude,longitude));
+
             for (int i = 0; i < list.size(); i++) {
                 MarkerOptions markerOptions = new MarkerOptions();
                 HashMap<String, String> hmPlace = list.get(i);
@@ -753,11 +883,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String name = hmPlace.get("place_name");
                 String vicinity = hmPlace.get("vicinity");
                 LatLng latLng = new LatLng(lat, lng);
+                boundsBuilder.include(latLng);
                 markerOptions.position(latLng);
                 markerOptions.title(name);
                 markerOptions.snippet(vicinity);
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
                 mMap.addMarker(markerOptions);
+            }
+            LatLngBounds bounds = boundsBuilder.build();
+            if(list.size()> 0) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 25));
             }
         }
     }
@@ -1100,6 +1235,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
     }
+
     ///////////////////////////////////////////////////////////////
     // in-app purchase functions...
     ///////////////////////////////////////////////////////////////
@@ -1122,10 +1258,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     support_200_price = inventory.getSkuDetails(support_200).getPrice();
 
                     // update the UI
-                    text_support_20.setText("20 Support \n" + support_20_price);
-                    text_support_50.setText("50 Support \n" + support_50_price);
-                    text_support_100.setText("100 Support \n" + support_100_price);
-                    text_support_200.setText("200 Support \n" + support_200_price);
+                    text_support_20.setText(getResources().getString(R.string.button_text_10_support) + "\n" + support_20_price);
+                    text_support_50.setText(getResources().getString(R.string.button_text_25_support) + "\n" + support_50_price);
+                    text_support_100.setText(getResources().getString(R.string.button_text_50_support) +"\n" + support_100_price);
+                    text_support_200.setText(getResources().getString(R.string.button_text_100_support)  +"\n" + support_200_price);
                 }
             }
         };
@@ -1183,7 +1319,171 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    ///////////////////////////////////////////////////////////////
+    // Add New Masjid
+    ///////////////////////////////////////////////////////////////
 
+    public void addNewMasjid(){
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.add_masjid, null);
+        builder.setView(dialogView);
+
+        builder.setCancelable(true);
+        final AlertDialog addMasjidDiag = builder.create();
+        addMasjidDiag.show();
+        //okay to dismiss...
+        Button okay = (Button) dialogView.findViewById(R.id.button_okay);
+        okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // fetch the data of name, address and telephone of masjid......
+                EditText masjidName = (EditText)dialogView.findViewById(R.id.text_masjid_name);
+                EditText masjidAddress = (EditText)dialogView.findViewById(R.id.text_masjid_address);
+                EditText masjidPhone = (EditText)dialogView.findViewById(R.id.text_masjid_telephone);
+
+
+                newMasjidName = masjidName.getText().toString();
+                newMasjidAddress = masjidAddress.getText().toString();
+                newMasjidTelephone = masjidPhone.getText().toString();
+
+                addMasjidDiag.dismiss();
+
+                addNewMasjidGetLatLng();
+            }
+        });
+    }
+
+    public void addNewMasjidGetLatLng(){
+        //hide the button for add masjid
+        Button addMasjidBtn = (Button) findViewById(R.id.btn_add_masjid);
+        RelativeLayout addressBar = (RelativeLayout)findViewById(R.id.r_layout_main);
+        addMasjidBtn.setVisibility(View.GONE);
+        addressBar.setVisibility(View.GONE);
+
+        Button addMasjidSubmit = (Button) findViewById(R.id.btn_add_masjid_submit);
+        Button addMasjidCancel = (Button) findViewById(R.id.btn_add_masjid_cancel);
+        addMasjidSubmit.setVisibility(View.VISIBLE);
+        addMasjidCancel.setVisibility(View.VISIBLE);
+
+
+        boolean isValidAddress = getLongLat(newMasjidAddress, true);
+        if(isValidAddress) {
+            showDialog(getResources().getString(R.string.add_masjid_lng_lat));
+            newMasjidLatLng = new LatLng(latitude, longitude);
+            updateAddNewMasjidMap();
+        }
+        else{
+            cancelAddNewMasjid();
+        }
+
+    }
+
+    public void updateAddNewMasjidMap(){
+        mMap.clear();
+        LatLng location = new LatLng(newMasjidLatLng.latitude, newMasjidLatLng.longitude);
+        mMap.addMarker(new MarkerOptions().
+                position(location).
+                title(getResources().getString(R.string.requested_location)).
+                draggable(true).
+                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, newMasjidZoom));
+        mMap.setMapType(mMap.MAP_TYPE_HYBRID);
+        addingNewMasjid = true;
+    }
+
+    public void cancelAddNewMasjid(){
+        Button addMasjidBtn = (Button) findViewById(R.id.btn_add_masjid);
+        RelativeLayout addressBar = (RelativeLayout)findViewById(R.id.r_layout_main);
+        addMasjidBtn.setVisibility(View.VISIBLE);
+        addressBar.setVisibility(View.VISIBLE);
+
+        Button addMasjidSubmit = (Button) findViewById(R.id.btn_add_masjid_submit);
+        Button addMasjidCancel = (Button) findViewById(R.id.btn_add_masjid_cancel);
+        addMasjidSubmit.setVisibility(View.GONE);
+        addMasjidCancel.setVisibility(View.GONE);
+        mMap.setMapType(mMap.MAP_TYPE_NORMAL);
+        addingNewMasjid = false;
+        updateMap();
+        if (isNetworkAvailable()) {
+            PlacesTask placesTask = new PlacesTask();
+            try {
+                placesTask.execute(sbMethod(search_radius)).get(connection_timeout, TimeUnit.MILLISECONDS);
+            } catch (Exception e) {
+            }
+        } else {
+            showDialog(getResources().getString(R.string.no_internet_connection));
+        }
+    }
+
+    public void submitAddNewMasjid(){
+        //confirm details from user
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.confirm_add_masjid, null);
+        builder.setView(dialogView);
+
+        //update the text values in the dialog window.
+        TextView masjidName = (TextView) dialogView.findViewById(R.id.masjid_name);
+        TextView masjidAddress = (TextView) dialogView.findViewById(R.id.masjid_address);
+        TextView masjidPhone = (TextView) dialogView.findViewById(R.id.masjid_phone);
+
+        masjidName.setText(newMasjidName);
+        masjidAddress.setText(newMasjidAddress);
+        masjidPhone.setText(newMasjidTelephone);
+
+
+        builder.setCancelable(true);
+        final AlertDialog confirmAddMasjid = builder.create();
+        confirmAddMasjid.show();
+
+
+        //okay to submit
+        Button okay = (Button) dialogView.findViewById(R.id.button_okay);
+        okay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //create the json query
+                AddPlaceRequest newMasjid = new AddPlaceRequest(
+                        newMasjidName,
+                        newMasjidLatLng,
+                        newMasjidAddress,
+                        Collections.singletonList(Place.TYPE_MOSQUE),
+                        newMasjidTelephone,
+                        Uri.parse(""));
+
+                Places.GeoDataApi.addPlace(mGoogleApiClient,newMasjid)
+                        .setResultCallback(new ResultCallback<PlaceBuffer>() {
+                            @Override
+                            public void onResult(PlaceBuffer places) {
+                                showDialog(places.getStatus().toString());
+                                // Log.i(TAG, "Place add result: " + places.getStatus().toString());
+                                // Log.i(TAG, "Added place: " + places.get(0).getName().toString());
+                                places.release();
+                            }
+                        });
+
+                confirmAddMasjid.dismiss();
+                cancelAddNewMasjid();
+
+            }
+        });
+
+        // cancel to cancel
+        Button cancel = (Button) dialogView.findViewById(R.id.button_cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                confirmAddMasjid.dismiss();
+                cancelAddNewMasjid();
+
+            }
+        });
+
+
+
+    }
 }
 
 
