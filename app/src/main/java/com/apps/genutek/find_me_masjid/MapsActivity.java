@@ -85,6 +85,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -765,7 +766,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String sb = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
                 "location=" + latitude + "," + longitude +
                 "&radius=" + radius +
-                "&types=" + "mosque" +
+                "&type=" + "mosque" +
                 "&sensor=true" +
                 "&key=AIzaSyAxvTaGa2xOp3x4pX3xHOb0VFA-iiTwbEg";
         return sb;
@@ -1444,31 +1445,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         okay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //create the json query
-                AddPlaceRequest newMasjid = new AddPlaceRequest(
-                        newMasjidName,
-                        newMasjidLatLng,
-                        newMasjidAddress,
-                        Collections.singletonList(Place.TYPE_MOSQUE),
-                        newMasjidTelephone,
-                        Uri.parse(""));
-
-                Places.GeoDataApi.addPlace(mGoogleApiClient,newMasjid)
-                        .setResultCallback(new ResultCallback<PlaceBuffer>() {
-                            @Override
-                            public void onResult(PlaceBuffer places) {
-                                showDialog(places.getStatus().toString());
-                                // Log.i(TAG, "Place add result: " + places.getStatus().toString());
-                                // Log.i(TAG, "Added place: " + places.get(0).getName().toString());
-                                places.release();
-                            }
-                        });
 
                 confirmAddMasjid.dismiss();
                 cancelAddNewMasjid();
-
             }
         });
+
 
         // cancel to cancel
         Button cancel = (Button) dialogView.findViewById(R.id.button_cancel);

@@ -164,7 +164,8 @@
         android:layout_above="@+id/layout_ads"
         android:layout_alignEnd="@+id/r_layout_main"
         android:layout_alignRight="@+id/r_layout_main"
-        android:layout_marginBottom="19dp">
+        android:layout_marginBottom="19dp"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/btn_add_masjid"
